@@ -79,7 +79,7 @@ public class LoginSignupPage extends Application {
         root.setBackground(new Background(new BackgroundFill(Color.rgb(141, 8, 79), CornerRadii.EMPTY, Insets.EMPTY)));
         primaryStage.setScene(new Scene(root, 500, 400));
 
-        // Hover effects for buttons
+        
         String buttonIdleStyle = "-fx-background-color: %s; -fx-text-fill: white; -fx-font-size: 14px;";
         String buttonHoverStyle = "-fx-background-color: %s; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-color: white; -fx-border-width: 2px;";
         loginButton.setOnMouseEntered(e -> loginButton.setStyle(String.format(buttonHoverStyle, "#45a049")));
