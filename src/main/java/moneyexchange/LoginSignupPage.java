@@ -1,7 +1,7 @@
-package moneyexchange.moneyexchange;
+package moneyexchange;
 
 import javafx.application.Application;
-import javafx.geometry.Insets;
+import javafx.geometry.*;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.layout.*;
@@ -12,12 +12,15 @@ public class LoginSignupPage extends Application {
 
     private TextField usernameField, newUsernameField;
     private PasswordField passwordField, newPasswordField;
+    private Database dataBase;
 
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Login / Sign Up");
 
-        // Login form
+        dataBase = new Database();
+
+
         Label loginLabel = new Label("Login");
         loginLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
@@ -31,12 +34,13 @@ public class LoginSignupPage extends Application {
 
         Button loginButton = new Button("Login");
         loginButton.setStyle("-fx-background-color: rgb(76, 175, 80); -fx-text-fill: white; -fx-font-size: 16px;");
+        loginButton.setOnAction(e -> login());
 
 
         VBox loginVBox = new VBox(10);
         loginVBox.getChildren().addAll(loginLabel, usernameField, passwordField, loginButton);
         loginVBox.setPadding(new Insets(10));
-        loginVBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+        loginVBox.setBackground(new Background(new BackgroundFill(Color.rgb(141,8,79), CornerRadii.EMPTY, Insets.EMPTY)));
 
         // Sign up form
         Label signupLabel = new Label("Sign Up");
@@ -52,13 +56,14 @@ public class LoginSignupPage extends Application {
 
         Button signupButton = new Button("Sign Up");
         signupButton.setStyle("-fx-background-color: rgb(0, 140, 186); -fx-text-fill: white; -fx-font-size: 16px;");
+        signupButton.setOnAction(e -> signup());
         VBox signupVBox = new VBox(10);
         signupVBox.getChildren().addAll(signupLabel, newUsernameField, newPasswordField, signupButton);
         signupVBox.setPadding(new Insets(10));
         signupVBox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
         signupVBox.setVisible(false);
 
-
+        // Toggle Button
         Button toggleButton = new Button("Don't have an account? Sign Up");
         toggleButton.setStyle("-fx-background-color: rgb(244, 67, 54); -fx-text-fill: white; -fx-font-size: 14px;");
         toggleButton.setOnAction(e -> {
@@ -73,26 +78,43 @@ public class LoginSignupPage extends Application {
             }
         });
 
-        VBox root = new VBox(10);
-        root.getChildren().addAll(loginVBox, signupVBox, toggleButton);
-        root.setPadding(new Insets(20));
-        root.setBackground(new Background(new BackgroundFill(Color.rgb(141, 8, 79), CornerRadii.EMPTY, Insets.EMPTY)));
-        primaryStage.setScene(new Scene(root, 500, 400));
+        VBox centerBox = new VBox();
+        centerBox.getChildren().addAll(loginVBox, signupVBox, toggleButton);
+        centerBox.setAlignment(Pos.CENTER);
+        centerBox.setSpacing(10);
 
-        
-        String buttonIdleStyle = "-fx-background-color: %s; -fx-text-fill: white; -fx-font-size: 14px;";
-        String buttonHoverStyle = "-fx-background-color: %s; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-color: white; -fx-border-width: 2px;";
-        loginButton.setOnMouseEntered(e -> loginButton.setStyle(String.format(buttonHoverStyle, "#45a049")));
-        loginButton.setOnMouseExited(e -> loginButton.setStyle(String.format(buttonIdleStyle, "#4CAF50")));
-        signupButton.setOnMouseEntered(e -> signupButton.setStyle(String.format(buttonHoverStyle, "#007B9C")));
-        signupButton.setOnMouseExited(e -> signupButton.setStyle(String.format(buttonIdleStyle, "#008CBA")));
+        VBox root = new VBox();
+        root.getChildren().add(centerBox);
+        root.setAlignment(Pos.CENTER);
+        root.setBackground(new Background(new BackgroundFill(Color.rgb(0, 8, 79), CornerRadii.EMPTY, Insets.EMPTY)));
+        primaryStage.setScene(new Scene(root, 500, 400, Color.BLUE));
 
         primaryStage.show();
+    }
+
+    private void login() {
+        String username = usernameField.getText();
+        String password = passwordField.getText();
+        if (dataBase.validateUser(username, password)) {
+            System.out.println("Login Successful");
+        }
+        else {
+            System.out.println("Invalid Username or Password");
+        }
+    }
+
+    private void signup() {
+        String newUsername = newUsernameField.getText();
+        String newPassword = newPasswordField.getText();
+        if (dataBase.addUser(newUsername, newPassword)) {
+            System.out.println("Sign Up Successful");
+        }
+        else {
+            System.out.println("Sign Up Failed");
+        }
     }
 
     public static void main(String[] args) {
         launch(args);
     }
 }
-
-
