@@ -10,6 +10,12 @@ import javafx.stage.Stage;
 import java.util.regex.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.Hyperlink;
+import java.util.Random;
+import javax.mail.*;
+import javax.mail.internet.InternetAddress;
+import javax.mail.internet.MimeMessage;
+import java.util.Properties;
 
 public class LoginSignupPage extends Application {
 
@@ -42,8 +48,12 @@ public class LoginSignupPage extends Application {
         loginButton.setOnAction(e -> login());
 
 
+        Hyperlink forgotPasswordLink = new Hyperlink("Forgot Password?");
+        forgotPasswordLink.setOnAction(e -> forgotPassword());
+
+
         VBox loginVBox = new VBox(10);
-        loginVBox.getChildren().addAll(loginLabel, usernameField, passwordField, loginButton);
+        loginVBox.getChildren().addAll(loginLabel, usernameField, passwordField, loginButton, forgotPasswordLink);
         loginVBox.setPadding(new Insets(10));
         loginVBox.setBackground(new Background(new BackgroundFill(Color.rgb(255,171,255), CornerRadii.EMPTY, Insets.EMPTY)));
 
@@ -202,9 +212,6 @@ public class LoginSignupPage extends Application {
 
         if(sw == 1) {
             database.addUser(newUsername, newPassword, newEmail, newPhoneNumber);
-        }
-
-        if (sw == 1) {
             System.out.println("Sign Up Successful");
         }
         else {
@@ -212,6 +219,80 @@ public class LoginSignupPage extends Application {
         }
     }
 
+    private void forgotPassword() {
+        String username = usernameField.getText();
+        String newPassword = generateRandomPassword();
+        String email = database.getUserEmail(username);
+
+        if (email != null) {
+            // Update database with new password
+            database.updatePassword(username, newPassword);
+
+            // Send email
+            sendPasswordResetEmail(email, newPassword);
+
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Password Reset");
+            alert.setHeaderText("New Password Sent");
+            alert.setContentText("A new password has been sent to your email address.");
+            alert.showAndWait();
+        }
+        else {
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Password Reset");
+            alert.setHeaderText("Username not found");
+            alert.setContentText("The provided username was not found in our database.");
+            alert.showAndWait();
+        }
+    }
+
+    private String generateRandomPassword() {
+        String characters = "ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789";
+        StringBuilder newPassword = new StringBuilder();
+        Random rnd = new Random();
+
+        for (int i = 0; i < 10; i++) {
+            newPassword.append(characters.charAt(rnd.nextInt(characters.length())));
+        }
+        return newPassword.toString();
+    }
+
+    private void sendPasswordResetEmail(String email, String newPassword) {
+        final String username = "exchangeakhavanandjafarzadeh@gmail.com"; // email address
+        final String password = "Aa1357924680Sj"; // password of that email
+
+        Properties props = new Properties();
+        props.put("mail.smtp.auth", "true");
+        props.put("mail.smtp.starttls.enable", "true");
+        props.put("mail.smtp.host", "smtp.gmail.com");
+        props.put("mail.smtp.port", "587");
+
+        Session session = Session.getInstance(props,
+                new javax.mail.Authenticator() {
+                    protected PasswordAuthentication getPasswordAuthentication() {
+                        return new PasswordAuthentication(username, password);
+                    }
+                });
+
+        try {
+            Message message = new MimeMessage(session);
+            message.setFrom(new InternetAddress(username));
+            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+            message.setSubject("Password Reset");
+            message.setText("Dear User,\n\n"
+                    + "Your password has been reset. Your new password is: " + newPassword + "\n\n"
+                    + "Please login with this new password and change it as soon as possible.");
+
+            Transport.send(message);
+
+            System.out.println("Password reset email sent to: " + email);
+
+        }
+        catch (MessagingException e) {
+            e.printStackTrace();
+            System.out.println("Failed to send password reset email.");
+        }
+    }
 
 
     public static boolean isPasswordValid(String password) {
@@ -227,7 +308,6 @@ public class LoginSignupPage extends Application {
         Matcher matcherEmail = patternEmail.matcher(email);
         return matcherEmail.matches();
     }
-
 
     public static void main(String[] args) {
         launch(args);

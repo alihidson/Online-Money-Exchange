@@ -74,4 +74,33 @@ public class Database {
             return false;
         }
     }
+
+
+    public String getUserEmail(String username) {
+        String sql = "SELECT email FROM users WHERE username = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                return rs.getString("email");
+            }
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return null;
+    }
+
+    public void updatePassword(String username, String newPassword) {
+        String sql = "UPDATE users SET password = ? WHERE username = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, newPassword);
+            pstmt.setString(2, username);
+            pstmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
