@@ -11,11 +11,9 @@ import java.util.regex.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
 import javafx.scene.control.Hyperlink;
-import java.util.Random;
+import java.util.*;
 import javax.mail.*;
-import javax.mail.internet.InternetAddress;
-import javax.mail.internet.MimeMessage;
-import java.util.Properties;
+import javax.mail.internet.*;
 
 public class LoginSignupPage extends Application {
 
@@ -25,6 +23,7 @@ public class LoginSignupPage extends Application {
     private PasswordField passwordField;
     private Database database;
     private int captchaCode;
+    private Label captchaCodeLabel;
 
     @Override
     public void start(Stage primaryStage) {
@@ -50,15 +49,23 @@ public class LoginSignupPage extends Application {
         captchaField.setMaxWidth(100);
 
         captchaCode = generateRandomNumber();
-        Label captchaCodeLabel = new Label(String.valueOf(captchaCode));
+        captchaCodeLabel = new Label(String.valueOf(captchaCode));
         captchaCodeLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
 
         captchaCodeLabel.setPadding(new Insets(5));
         captchaCodeLabel.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
         captchaCodeLabel.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
 
+        Button refreshCaptchaButton = new Button("Refresh");
+        refreshCaptchaButton.setOnAction(e -> {
+            captchaCode = generateRandomNumber();
+            captchaCodeLabel.setText(String.valueOf(captchaCode));
+        });
+
+        HBox captchaBox = new HBox(5, captchaCodeLabel, refreshCaptchaButton);
+
         BorderPane captchaPane = new BorderPane();
-        captchaPane.setLeft(captchaCodeLabel);
+        captchaPane.setLeft(captchaBox);
         captchaPane.setBottom(captchaField);
 
         Button loginButton = new Button("Login");
@@ -138,7 +145,6 @@ public class LoginSignupPage extends Application {
 
 
 
-
         String buttonIdleStyle = "-fx-background-color: %s; -fx-text-fill: white; -fx-font-size: 14px;";
         String buttonHoverStyle = "-fx-background-color: %s; -fx-text-fill: white; -fx-font-size: 14px; -fx-border-color: white; -fx-border-width: 2px;";
 
@@ -159,12 +165,22 @@ public class LoginSignupPage extends Application {
         String username = usernameField.getText();
         String password = passwordField.getText();
         int captcha = Integer.parseInt(captchaField.getText());
+
         if (database.validateUser(username, password) && captcha == captchaCode) {
             System.out.println("Login Successful");
         }
         else {
             System.out.println("Invalid Username, Password, or Captcha");
         }
+
+        if(Integer.parseInt(captchaField.getText()) != captchaCode) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Sorry");
+            alert.setContentText("Invalid Captcha, please try again");
+            alert.showAndWait();
+        }
+
     }
 
 
@@ -218,15 +234,6 @@ public class LoginSignupPage extends Application {
 
                 }
             }
-        }
-
-        if(Integer.parseInt(captchaField.getText()) != captchaCode) {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText("Sorry");
-            alert.setContentText("Invalid Captcha, please try again");
-            sw = 0;
-            alert.showAndWait();
         }
 
 
