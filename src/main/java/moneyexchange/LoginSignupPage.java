@@ -201,7 +201,7 @@ public class LoginSignupPage extends Application {
 
 
         if(sw == 1) {
-            database.addUser(newUsername, newPassword);
+            database.addUser(newUsername, newPassword, newEmail, newPhoneNumber);
         }
 
         if (sw == 1) {
