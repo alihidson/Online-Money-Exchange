@@ -19,11 +19,12 @@ import java.util.Properties;
 
 public class LoginSignupPage extends Application {
 
-    private TextField usernameField, newUsernameField, emailField, phoneNumber;
+    private TextField usernameField, newUsernameField, emailField, phoneNumber, captchaField;
 
     private TextField newPasswordField, newPasswordAgain;
     private PasswordField passwordField;
     private Database database;
+    private int captchaCode;
 
     @Override
     public void start(Stage primaryStage) {
@@ -43,6 +44,23 @@ public class LoginSignupPage extends Application {
         passwordField.setPromptText("Password");
         passwordField.setMaxWidth(200);
 
+        Label captchaLabel = new Label("Captcha:");
+        captchaField = new TextField();
+        captchaField.setPromptText("Enter Captcha");
+        captchaField.setMaxWidth(100);
+
+        captchaCode = generateRandomNumber();
+        Label captchaCodeLabel = new Label(String.valueOf(captchaCode));
+        captchaCodeLabel.setStyle("-fx-font-size: 16px; -fx-font-weight: bold;");
+
+        captchaCodeLabel.setPadding(new Insets(5));
+        captchaCodeLabel.setBorder(new Border(new BorderStroke(Color.BLACK, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, BorderWidths.DEFAULT)));
+        captchaCodeLabel.setBackground(new Background(new BackgroundFill(Color.WHITE, CornerRadii.EMPTY, Insets.EMPTY)));
+
+        BorderPane captchaPane = new BorderPane();
+        captchaPane.setLeft(captchaCodeLabel);
+        captchaPane.setBottom(captchaField);
+
         Button loginButton = new Button("Login");
         loginButton.setStyle("-fx-background-color: rgb(76, 175, 80); -fx-text-fill: white; -fx-font-size: 16px;");
         loginButton.setOnAction(e -> login());
@@ -53,7 +71,7 @@ public class LoginSignupPage extends Application {
 
 
         VBox loginVBox = new VBox(10);
-        loginVBox.getChildren().addAll(loginLabel, usernameField, passwordField, loginButton, forgotPasswordLink);
+        loginVBox.getChildren().addAll(loginLabel, usernameField, passwordField, captchaLabel, captchaPane, loginButton, forgotPasswordLink);
         loginVBox.setPadding(new Insets(10));
         loginVBox.setBackground(new Background(new BackgroundFill(Color.rgb(255,171,255), CornerRadii.EMPTY, Insets.EMPTY)));
 
@@ -140,11 +158,12 @@ public class LoginSignupPage extends Application {
     private void login() {
         String username = usernameField.getText();
         String password = passwordField.getText();
-        if (database.validateUser(username, password)) {
+        int captcha = Integer.parseInt(captchaField.getText());
+        if (database.validateUser(username, password) && captcha == captchaCode) {
             System.out.println("Login Successful");
         }
         else {
-            System.out.println("Invalid Username or Password");
+            System.out.println("Invalid Username, Password, or Captcha");
         }
     }
 
@@ -201,6 +220,14 @@ public class LoginSignupPage extends Application {
             }
         }
 
+        if(Integer.parseInt(captchaField.getText()) != captchaCode) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Sorry");
+            alert.setContentText("Invalid Captcha, please try again");
+            sw = 0;
+            alert.showAndWait();
+        }
 
 
         String newUsername = newUsernameField.getText();
@@ -217,6 +244,11 @@ public class LoginSignupPage extends Application {
         else {
             System.out.println("Sign Up Failed");
         }
+    }
+
+    private int generateRandomNumber() {
+        Random rnd = new Random();
+        return rnd.nextInt(9000) + 1000; // Generates a random number between 1000 and 9999
     }
 
     private void forgotPassword() {
