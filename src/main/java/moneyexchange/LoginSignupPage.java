@@ -70,7 +70,7 @@ public class LoginSignupPage extends Application {
 
         Button loginButton = new Button("Login");
         loginButton.setStyle("-fx-background-color: rgb(76, 175, 80); -fx-text-fill: white; -fx-font-size: 16px;");
-        loginButton.setOnAction(e -> login());
+        loginButton.setOnAction(e -> login(primaryStage));
 
 
         Hyperlink forgotPasswordLink = new Hyperlink("Forgot Password?");
@@ -161,13 +161,18 @@ public class LoginSignupPage extends Application {
         primaryStage.show();
     }
 
-    private void login() {
+    private void login(Stage primaryStage) {
         String username = usernameField.getText();
         String password = passwordField.getText();
         int captcha = Integer.parseInt(captchaField.getText());
 
         if (database.validateUser(username, password) && captcha == captchaCode) {
             System.out.println("Login Successful");
+
+            primaryStage.close();
+            Stage HomeStage = new Stage();
+            HomePage homePage = new HomePage();
+            homePage.start(HomeStage);
         }
         else {
             System.out.println("Invalid Username, Password, or Captcha");
