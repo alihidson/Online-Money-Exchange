@@ -14,6 +14,9 @@ import javafx.scene.control.Hyperlink;
 import java.util.*;
 import javax.mail.*;
 import javax.mail.internet.*;
+import javafx.scene.image.Image;
+import javafx.scene.text.Text;
+import javafx.scene.text.Font;
 
 public class LoginSignupPage extends Application {
 
@@ -28,6 +31,24 @@ public class LoginSignupPage extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Login / Sign Up");
+
+        String imageIcon = "file:/Users/ali/Main/Documents/Source/Money-Exchange/src/image/icon.png";
+        Image icon = new Image(imageIcon);
+        primaryStage.getIcons().add(icon);
+
+        Text text = new Text();
+        text.setText("Welcome to Money Exchange");
+//        text.setX(240);
+//        text.setY(10);
+        String WelcomeFont = "file:/Users/ali/Main/Documents/Source/Money-Exchange/src/Font/Sectar.otf";
+        text.setFont(Font.font(WelcomeFont, 25));
+        text.setFill(Color.rgb(255,0,0));
+
+//        primaryStage.setWidth(800);
+//        primaryStage.setHeight(600);
+
+        primaryStage.setResizable(false);
+//        primaryStage.setFullScreen(true);
 
         database = new Database();
 
@@ -78,7 +99,7 @@ public class LoginSignupPage extends Application {
 
 
         VBox loginVBox = new VBox(10);
-        loginVBox.getChildren().addAll(loginLabel, usernameField, passwordField, captchaLabel, captchaPane, loginButton, forgotPasswordLink);
+        loginVBox.getChildren().addAll(text, loginLabel, usernameField, passwordField, captchaLabel, captchaPane, loginButton, forgotPasswordLink);
         loginVBox.setPadding(new Insets(10));
         loginVBox.setBackground(new Background(new BackgroundFill(Color.rgb(255,171,255), CornerRadii.EMPTY, Insets.EMPTY)));
 

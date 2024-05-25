@@ -6,6 +6,7 @@ import javafx.scene.Scene;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
+import javafx.scene.image.Image;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -14,6 +15,12 @@ public class HomePage extends Application {
     @Override
     public void start(Stage primaryStage) {
         primaryStage.setTitle("Digital Currencies");
+
+        String imagePath = "file:/Users/ali/Main/Documents/Source/Money-Exchange/src/image/icon.png";
+        Image icon = new Image(imagePath);
+        primaryStage.getIcons().add(icon);
+
+        primaryStage.setResizable(false);
 
         // Information of Digital Currencies
         TableView<CurrencyInfo> tableView = new TableView<>();
