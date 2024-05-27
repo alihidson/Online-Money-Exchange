@@ -17,6 +17,7 @@ import javax.mail.internet.*;
 import javafx.scene.image.Image;
 import javafx.scene.text.Text;
 import javafx.scene.text.Font;
+import javafx.scene.layout.Border;
 
 public class LoginSignupPage extends Application {
 
@@ -44,10 +45,22 @@ public class LoginSignupPage extends Application {
         text.setFont(Font.font(WelcomeFont, 25));
         text.setFill(Color.rgb(255,0,0));
 
-//        primaryStage.setWidth(800);
-//        primaryStage.setHeight(600);
+
+        String imagePath = "file:/Users/ali/Main/Documents/Source/Money-Exchange/src/image/background.jpg";
+        Image backgroundImage = new Image(imagePath);
+
+
+        BackgroundImage background = new BackgroundImage(
+                backgroundImage,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundRepeat.NO_REPEAT,
+                BackgroundPosition.DEFAULT,
+                BackgroundSize.DEFAULT
+        );
+
 
         primaryStage.setResizable(false);
+
 //        primaryStage.setFullScreen(true);
 
         database = new Database();
@@ -101,7 +114,11 @@ public class LoginSignupPage extends Application {
         VBox loginVBox = new VBox(10);
         loginVBox.getChildren().addAll(text, loginLabel, usernameField, passwordField, captchaLabel, captchaPane, loginButton, forgotPasswordLink);
         loginVBox.setPadding(new Insets(10));
-        loginVBox.setBackground(new Background(new BackgroundFill(Color.rgb(255,171,255), CornerRadii.EMPTY, Insets.EMPTY)));
+        loginVBox.setBackground(new Background(background));
+        //loginVBox.setBackground(new Background(new BackgroundFill(Color.rgb(255,171,255), CornerRadii.EMPTY, Insets.EMPTY)));
+        loginVBox.setBorder(new Border(new BorderStroke(Color.rgb(141, 8, 79),
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5))));
+
 
         // Sign up form
         Label signupLabel = new Label("Sign Up");
@@ -155,14 +172,16 @@ public class LoginSignupPage extends Application {
             }
         });
 
+
         StackPane root = new StackPane();
         root.getChildren().addAll(loginVBox, signupVBox, toggleButton);
         // top-right-bottom-left
-        StackPane.setMargin(loginVBox, new Insets(50, 50, 50, 50));
-        StackPane.setMargin(signupVBox, new Insets(50, 50, 50, 50));
-        StackPane.setMargin(toggleButton, new Insets(400, 0, 0, 0));
-        root.setBackground(new Background(new BackgroundFill(Color.rgb(141, 8, 79), CornerRadii.EMPTY, Insets.EMPTY)));
-        Scene scene = new Scene(root, 800, 600);
+        StackPane.setMargin(loginVBox, new Insets(150, 250, 150, 250));
+        StackPane.setMargin(signupVBox, new Insets(150, 250, 150, 250));
+        StackPane.setMargin(toggleButton, new Insets(350, 0, 0, 0));
+        //root.setBackground(new Background(new BackgroundFill(Color.rgb(141, 8, 79), CornerRadii.EMPTY, Insets.EMPTY)));
+        root.setBackground(new Background(background));
+        Scene scene = new Scene(root, 1280, 740);
         primaryStage.setScene(scene);
 
 
@@ -249,17 +268,22 @@ public class LoginSignupPage extends Application {
         }
 
         else {
-            for(int i=0; i< newPasswordField.getText().length() && i< newPasswordField.getText().length(); i++) {
+            boolean flag = true;
+            for(int i=0; i< newPasswordField.getText().length() && i< newPasswordField.getText().length() && flag; i++) {
                 if(newPasswordField.getText().charAt(i) != newPasswordAgain.getText().charAt(i)) {
+                    flag = false;
+                }
 
+                if(!flag) {
                     Alert alert = new Alert(AlertType.INFORMATION);
                     alert.setTitle("Error");
                     alert.setHeaderText("Sorry");
                     alert.setContentText("This new Password is not equal by again Password, please try again");
                     sw = 0;
                     alert.showAndWait();
-
                 }
+
+
             }
         }
 
