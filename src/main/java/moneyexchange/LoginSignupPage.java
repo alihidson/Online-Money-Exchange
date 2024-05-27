@@ -157,11 +157,12 @@ public class LoginSignupPage extends Application {
 
         StackPane root = new StackPane();
         root.getChildren().addAll(loginVBox, signupVBox, toggleButton);
-        StackPane.setMargin(loginVBox, new Insets(50, 0, 0, 0));
-        StackPane.setMargin(signupVBox, new Insets(50, 0, 0, 0));
-        StackPane.setMargin(toggleButton, new Insets(300, 0, 0, 0));
+        // top-right-bottom-left
+        StackPane.setMargin(loginVBox, new Insets(50, 50, 50, 50));
+        StackPane.setMargin(signupVBox, new Insets(50, 50, 50, 50));
+        StackPane.setMargin(toggleButton, new Insets(400, 0, 0, 0));
         root.setBackground(new Background(new BackgroundFill(Color.rgb(141, 8, 79), CornerRadii.EMPTY, Insets.EMPTY)));
-        Scene scene = new Scene(root, 500, 400);
+        Scene scene = new Scene(root, 800, 600);
         primaryStage.setScene(scene);
 
 
