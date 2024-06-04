@@ -114,8 +114,8 @@ public class LoginSignupPage extends Application {
         VBox loginVBox = new VBox(10);
         loginVBox.getChildren().addAll(text, loginLabel, usernameField, passwordField, captchaLabel, captchaPane, loginButton, forgotPasswordLink);
         loginVBox.setPadding(new Insets(10));
-        loginVBox.setBackground(new Background(background));
-        //loginVBox.setBackground(new Background(new BackgroundFill(Color.rgb(255,171,255), CornerRadii.EMPTY, Insets.EMPTY)));
+        //loginVBox.setBackground(new Background(background));
+        loginVBox.setBackground(new Background(new BackgroundFill(Color.rgb(255,171,255), CornerRadii.EMPTY, Insets.EMPTY)));
         loginVBox.setBorder(new Border(new BorderStroke(Color.rgb(141, 8, 79),
                 BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5))));
 
@@ -319,7 +319,7 @@ public class LoginSignupPage extends Application {
             database.updatePassword(username, newPassword);
 
             // Send email
-            sendPasswordResetEmail(email, newPassword);
+            //sendPasswordResetEmail(email, newPassword);
 
             Alert alert = new Alert(AlertType.INFORMATION);
             alert.setTitle("Password Reset");
@@ -347,42 +347,42 @@ public class LoginSignupPage extends Application {
         return newPassword.toString();
     }
 
-    private void sendPasswordResetEmail(String email, String newPassword) {
-        final String username = "exchangeakhavanandjafarzadeh@gmail.com"; // email address
-        final String password = "Aa1357924680Sj"; // password of that email
-
-        Properties props = new Properties();
-        props.put("mail.smtp.auth", "true");
-        props.put("mail.smtp.starttls.enable", "true");
-        props.put("mail.smtp.host", "smtp.gmail.com");
-        props.put("mail.smtp.port", "587");
-
-        Session session = Session.getInstance(props,
-                new javax.mail.Authenticator() {
-                    protected PasswordAuthentication getPasswordAuthentication() {
-                        return new PasswordAuthentication(username, password);
-                    }
-                });
-
-        try {
-            Message message = new MimeMessage(session);
-            message.setFrom(new InternetAddress(username));
-            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
-            message.setSubject("Password Reset");
-            message.setText("Dear User,\n\n"
-                    + "Your password has been reset. Your new password is: " + newPassword + "\n\n"
-                    + "Please login with this new password and change it as soon as possible.");
-
-            Transport.send(message);
-
-            System.out.println("Password reset email sent to: " + email);
-
-        }
-        catch (MessagingException e) {
-            e.printStackTrace();
-            System.out.println("Failed to send password reset email.");
-        }
-    }
+//    private void sendPasswordResetEmail(String email, String newPassword) {
+//        final String username = "exchangeakhavanandjafarzadeh@gmail.com"; // email address
+//        final String password = "Aa1357924680Sj"; // password of that email
+//
+//        Properties props = new Properties();
+//        props.put("mail.smtp.auth", "true");
+//        props.put("mail.smtp.starttls.enable", "true");
+//        props.put("mail.smtp.host", "smtp.gmail.com");
+//        props.put("mail.smtp.port", "587");
+//
+//        Session session = Session.getInstance(props,
+//                new javax.mail.Authenticator() {
+//                    protected PasswordAuthentication getPasswordAuthentication() {
+//                        return new PasswordAuthentication(username, password);
+//                    }
+//                });
+//
+//        try {
+//            Message message = new MimeMessage(session);
+//            message.setFrom(new InternetAddress(username));
+//            message.setRecipients(Message.RecipientType.TO, InternetAddress.parse(email));
+//            message.setSubject("Password Reset");
+//            message.setText("Dear User,\n\n"
+//                    + "Your password has been reset. Your new password is: " + newPassword + "\n\n"
+//                    + "Please login with this new password and change it as soon as possible.");
+//
+//            Transport.send(message);
+//
+//            System.out.println("Password reset email sent to: " + email);
+//
+//        }
+//        catch (MessagingException e) {
+//            e.printStackTrace();
+//            System.out.println("Failed to send password reset email.");
+//        }
+//    }
 
 
     public static boolean isPasswordValid(String password) {

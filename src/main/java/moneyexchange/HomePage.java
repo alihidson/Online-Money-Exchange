@@ -3,10 +3,14 @@ package moneyexchange;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
+import javafx.scene.control.Menu;
+import javafx.scene.control.MenuBar;
+import javafx.scene.control.MenuItem;
 import javafx.scene.control.TableColumn;
 import javafx.scene.control.TableView;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
+import javafx.scene.layout.BorderPane;
 import javafx.scene.layout.VBox;
 import javafx.stage.Stage;
 
@@ -21,6 +25,16 @@ public class HomePage extends Application {
         primaryStage.getIcons().add(icon);
 
         primaryStage.setResizable(false);
+
+        // Create MenuBar
+        MenuBar menuBar = new MenuBar();
+        Menu menuFile = new Menu("Finish");
+        MenuItem exitItem = new MenuItem("Exit");
+        exitItem.setOnAction(e -> {
+            primaryStage.close();
+        });
+        menuFile.getItems().add(exitItem);
+        menuBar.getMenus().add(menuFile);
 
         // Information of Digital Currencies
         TableView<CurrencyInfo> tableView = new TableView<>();
@@ -47,7 +61,6 @@ public class HomePage extends Application {
                 new CurrencyInfo("Dash", 150.00, -0.5, 155.00, 145.00)
         );
 
-
         tableView.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
                 CurrencyInfo selectedCurrency = tableView.getSelectionModel().getSelectedItem();
@@ -57,22 +70,24 @@ public class HomePage extends Application {
             }
         });
 
-        VBox root = new VBox(tableView);
-        root.setPadding(new Insets(20));
-        root.setStyle("-fx-background-color: rgb(255, 123, 70);");
+        VBox tableCurrency = new VBox(tableView);
+        tableCurrency.setPadding(new Insets(20));
+        tableCurrency.setStyle("-fx-background-color: rgb(255, 123, 70);");
+
+        BorderPane root = new BorderPane();
+        root.setTop(menuBar);
+        root.setCenter(tableCurrency);
 
         Scene scene = new Scene(root, 600, 400);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
 
-
     private void openBitcoin(String currencyName) {
         Stage currencyStage = new Stage();
         Bitcoin bitcoin = new Bitcoin(currencyName);
         bitcoin.start(currencyStage);
     }
-
 
     public static void main(String[] args) {
         launch(args);
