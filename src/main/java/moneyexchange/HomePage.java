@@ -3,11 +3,7 @@ package moneyexchange;
 import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
-import javafx.scene.control.Menu;
-import javafx.scene.control.MenuBar;
-import javafx.scene.control.MenuItem;
-import javafx.scene.control.TableColumn;
-import javafx.scene.control.TableView;
+import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
 import javafx.scene.layout.BorderPane;
@@ -28,13 +24,42 @@ public class HomePage extends Application {
 
         // Create MenuBar
         MenuBar menuBar = new MenuBar();
-        Menu menuFile = new Menu("Finish");
+        menuBar.setStyle("-fx-background-color: rgb(213,28,124);");
+
+        // Create a custom label for the menu
+        Label finishLabel = new Label("Finish");
+        finishLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;");
+
+        Menu exitMenu = new Menu();
+        exitMenu.setGraphic(finishLabel);
+
         MenuItem exitItem = new MenuItem("Exit");
+        exitItem.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: black;");
         exitItem.setOnAction(e -> {
             primaryStage.close();
+            Stage LoginPage = new Stage();
+            LoginSignupPage loginSignupPage = new LoginSignupPage();
+            loginSignupPage.start(LoginPage);
         });
-        menuFile.getItems().add(exitItem);
-        menuBar.getMenus().add(menuFile);
+
+        exitMenu.getItems().add(exitItem);
+
+
+        // Add Profile menu
+        Label profileLabel = new Label("Profile");
+        profileLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;");
+
+        Menu profileMenu = new Menu();
+        profileMenu.setGraphic(profileLabel);
+
+        MenuItem profileItem = new MenuItem("profile");
+        profileItem.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: black;");
+
+//        profileItem.setOnAction(e -> openProfilePage());
+        profileMenu.getItems().add(profileItem);
+
+        // add items on menuBar
+        menuBar.getMenus().addAll(exitMenu, profileMenu);
 
         // Information of Digital Currencies
         TableView<CurrencyInfo> tableView = new TableView<>();
@@ -53,13 +78,130 @@ public class HomePage extends Application {
         TableColumn<CurrencyInfo, Double> lowestColumn = new TableColumn<>("Lowest");
         lowestColumn.setCellValueFactory(new PropertyValueFactory<>("lowest"));
 
+
+        priceColumn.setCellFactory(column -> {
+            return new TableCell<CurrencyInfo, Double>() {
+                @Override
+                protected void updateItem(Double item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setText(null);
+                        setStyle("");
+                    }
+                    else {
+                        setText(String.valueOf(item));
+                        if (item > 100) {
+                            setStyle("-fx-background-color: lightgreen;");
+                        }
+                        else if (item < 50) {
+                            setStyle("-fx-background-color: lightcoral;");
+                        }
+                        else {
+                            setStyle("");
+                        }
+                    }
+                }
+            };
+        });
+
+
+        changeColumn.setCellFactory(column -> {
+            return new TableCell<CurrencyInfo, Double>() {
+                @Override
+                protected void updateItem(Double item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setText(null);
+                        setStyle("");
+                    }
+                    else {
+                        setText(String.valueOf(item));
+                        if (item > 0) {
+                            setStyle("-fx-background-color: lightgreen;");
+                        }
+                        else if (item < 0) {
+                            setStyle("-fx-background-color: lightcoral;");
+                        }
+                        else {
+                            setStyle("");
+                        }
+                    }
+                }
+            };
+        });
+
+
+        highestColumn.setCellFactory(column -> {
+            return new TableCell<CurrencyInfo, Double>() {
+                @Override
+                protected void updateItem(Double item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setText(null);
+                        setStyle("");
+                    }
+                    else {
+                        setText(String.valueOf(item));
+                        if (item > 0) {
+                            setStyle("-fx-background-color: lightgreen;");
+                        }
+                        else if (item < 0) {
+                            setStyle("-fx-background-color: lightcoral;");
+                        }
+                        else {
+                            setStyle("");
+                        }
+                    }
+                }
+            };
+        });
+
+
+        lowestColumn.setCellFactory(column -> {
+            return new TableCell<CurrencyInfo, Double>() {
+                @Override
+                protected void updateItem(Double item, boolean empty) {
+                    super.updateItem(item, empty);
+                    if (item == null || empty) {
+                        setText(null);
+                        setStyle("");
+                    }
+                    else {
+                        setText(String.valueOf(item));
+                        if (item > 100) {
+                            setStyle("-fx-background-color: lightgreen;");
+                        }
+                        else if (item < 50) {
+                            setStyle("-fx-background-color: lightcoral;");
+                        }
+                        else {
+                            setStyle("");
+                        }
+                    }
+                }
+            };
+        });
+
         tableView.getColumns().addAll(currencyColumn, priceColumn, changeColumn, highestColumn, lowestColumn);
 
+        // Adding data to the table
         tableView.getItems().addAll(
                 new CurrencyInfo("Bitcoin", 50000.00, 2.5, 51000.00, 48000.00),
                 new CurrencyInfo("Dogecoin", 0.30, 1.8, 0.35, 0.25),
                 new CurrencyInfo("Dash", 150.00, -0.5, 155.00, 145.00)
         );
+
+        // Adjusting the height and cell size of the table to fit the rows
+        tableView.setFixedCellSize(25); // Set a fixed cell size
+        tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(tableView.getItems().size() + 1.25)); // Adjust height
+
+        // Adjusting the width of the table to fit the columns
+        tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
+        currencyColumn.setMinWidth(50);
+        priceColumn.setMinWidth(50);
+        changeColumn.setMinWidth(50);
+        highestColumn.setMinWidth(50);
+        lowestColumn.setMinWidth(50);
 
         tableView.setOnMouseClicked(e -> {
             if (e.getClickCount() == 2) {
@@ -70,15 +212,15 @@ public class HomePage extends Application {
             }
         });
 
-        VBox tableCurrency = new VBox(tableView);
-        tableCurrency.setPadding(new Insets(20));
-        tableCurrency.setStyle("-fx-background-color: rgb(255, 123, 70);");
+        VBox tableContainer = new VBox(tableView);
+        tableContainer.setPadding(new Insets(20));
+        tableContainer.setStyle("-fx-background-color: rgb(255, 123, 70);");
 
         BorderPane root = new BorderPane();
         root.setTop(menuBar);
-        root.setCenter(tableCurrency);
+        root.setCenter(tableContainer);
 
-        Scene scene = new Scene(root, 600, 400);
+        Scene scene = new Scene(root, 1280, 740);
         primaryStage.setScene(scene);
         primaryStage.show();
     }
@@ -88,6 +230,12 @@ public class HomePage extends Application {
         Bitcoin bitcoin = new Bitcoin(currencyName);
         bitcoin.start(currencyStage);
     }
+
+//    private void openProfilePage() {
+//        Stage profileStage = new Stage();
+//        ProfilePage profilePage = new ProfilePage();
+//        profilePage.start(profileStage);
+//    }
 
     public static void main(String[] args) {
         launch(args);
