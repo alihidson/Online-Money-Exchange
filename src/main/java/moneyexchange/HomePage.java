@@ -26,7 +26,7 @@ public class HomePage extends Application {
         MenuBar menuBar = new MenuBar();
         menuBar.setStyle("-fx-background-color: rgb(213,28,124);");
 
-        // Create a custom label for the menu
+        // Create label for the menu
         Label finishLabel = new Label("Finish");
         finishLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;");
 
@@ -58,7 +58,6 @@ public class HomePage extends Application {
 //        profileItem.setOnAction(e -> openProfilePage());
         profileMenu.getItems().add(profileItem);
 
-        // add items on menuBar
         menuBar.getMenus().addAll(exitMenu, profileMenu);
 
         // Information of Digital Currencies
@@ -191,11 +190,11 @@ public class HomePage extends Application {
                 new CurrencyInfo("Dash", 150.00, -0.5, 155.00, 145.00)
         );
 
-        // Adjusting the height and cell size of the table to fit the rows
+        // Adjust the height and cell size of the table to fit the rows
         tableView.setFixedCellSize(25); // Set a fixed cell size
         tableView.prefHeightProperty().bind(tableView.fixedCellSizeProperty().multiply(tableView.getItems().size() + 1.25)); // Adjust height
 
-        // Adjusting the width of the table to fit the columns
+        // Adjust the width of the table to fit the columns
         tableView.setColumnResizePolicy(TableView.CONSTRAINED_RESIZE_POLICY);
         currencyColumn.setMinWidth(50);
         priceColumn.setMinWidth(50);
@@ -225,13 +224,13 @@ public class HomePage extends Application {
         primaryStage.show();
     }
 
-    private void openBitcoin(String currencyName) {
+    public void openBitcoin(String currencyName) {
         Stage currencyStage = new Stage();
         Bitcoin bitcoin = new Bitcoin(currencyName);
         bitcoin.start(currencyStage);
     }
 
-//    private void openProfilePage() {
+//    public void openProfilePage() {
 //        Stage profileStage = new Stage();
 //        ProfilePage profilePage = new ProfilePage();
 //        profilePage.start(profileStage);
