@@ -1,5 +1,7 @@
 package moneyexchange;
 
+import javafx.scene.control.TextField;
+
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -60,7 +62,6 @@ public class Database {
 
     public boolean validateUser(String username, String password) {
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";
-
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, username);
@@ -69,11 +70,38 @@ public class Database {
             boolean isValid = rs.next();
             pstmt.close();
             return isValid;
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
             return false;
         }
     }
+
+    public void getUserInfo(String username, TextField usernameField, TextField phoneNumberField, TextField emailField) {
+        String sql = "SELECT phoneNumber, email FROM users WHERE username = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                String phoneNumber = rs.getString("phoneNumber");
+                String email = rs.getString("email");
+
+                LoginSignupPage.userNameProf = username;
+                LoginSignupPage.phoneNumberProf = phoneNumber;
+                LoginSignupPage.emailProf = email;
+
+                usernameField.setText(username);
+                phoneNumberField.setText(phoneNumber);
+                emailField.setText(email);
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
 
 
     public String getUserEmail(String username) {

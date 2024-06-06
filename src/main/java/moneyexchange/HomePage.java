@@ -55,7 +55,7 @@ public class HomePage extends Application {
         MenuItem profileItem = new MenuItem("profile");
         profileItem.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: black;");
 
-//        profileItem.setOnAction(e -> openProfilePage());
+        profileItem.setOnAction(e -> openProfilePage());
         profileMenu.getItems().add(profileItem);
 
         menuBar.getMenus().addAll(exitMenu, profileMenu);
@@ -230,11 +230,11 @@ public class HomePage extends Application {
         bitcoin.start(currencyStage);
     }
 
-//    public void openProfilePage() {
-//        Stage profileStage = new Stage();
-//        ProfilePage profilePage = new ProfilePage();
-//        profilePage.start(profileStage);
-//    }
+    public void openProfilePage() {
+        Stage profileStage = new Stage();
+        ProfilePage profilePage = new ProfilePage(LoginSignupPage.userNameProf, LoginSignupPage.phoneNumberProf, LoginSignupPage.emailProf);
+        profilePage.start(profileStage);
+    }
 
     public static void main(String[] args) {
         launch(args);

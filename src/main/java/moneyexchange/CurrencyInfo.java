@@ -18,4 +18,20 @@ public class CurrencyInfo {
     public String getCurrency() {
         return currency;
     }
+
+    public double getPrice() {
+        return price;
+    }
+
+    public double getChange() {
+        return change;
+    }
+
+    public double getHighest() {
+        return highest;
+    }
+
+    public double getLowest() {
+        return lowest;
+    }
 }

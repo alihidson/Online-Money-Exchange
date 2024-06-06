@@ -28,6 +28,7 @@ public class LoginSignupPage extends Application {
     private Database database;
     private int captchaCode;
     private Label captchaCodeLabel;
+    public static String userNameProf, phoneNumberProf, emailProf;
 
     @Override
     public void start(Stage primaryStage) {
@@ -39,8 +40,7 @@ public class LoginSignupPage extends Application {
 
         Text text = new Text();
         text.setText("Welcome to Money Exchange");
-//        text.setX(240);
-//        text.setY(10);
+
         String WelcomeFont = "file:/Users/ali/Main/Documents/Source/Money-Exchange/src/Font/Sectar.otf";
         text.setFont(Font.font(WelcomeFont, 25));
         text.setFill(Color.rgb(255,0,0));
@@ -209,6 +209,8 @@ public class LoginSignupPage extends Application {
 
         if (database.validateUser(username, password) && captcha == captchaCode) {
             System.out.println("Login Successful");
+
+            database.getUserInfo(username, usernameField, phoneNumber, emailField);
 
             primaryStage.close();
             Stage HomeStage = new Stage();
