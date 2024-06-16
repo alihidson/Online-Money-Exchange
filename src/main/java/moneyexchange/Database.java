@@ -141,7 +141,74 @@ public class Database {
             pstmt.setString(1, newPassword);
             pstmt.setString(2, username);
             pstmt.executeUpdate();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void updateFirstName(String username, String newFirstName) {
+        String sql = "UPDATE users SET firstName = ? WHERE username = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, newFirstName);
+            pstmt.setString(2, username);
+            pstmt.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateLastName(String username, String newLastName) {
+        String sql = "UPDATE users SET lastName = ? WHERE username = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, newLastName);
+            pstmt.setString(2, username);
+            pstmt.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateAge(String username, String newAge) {
+        String sql = "UPDATE users SET Age = ? WHERE username = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, newAge);
+            pstmt.setString(2, username);
+            pstmt.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updatePhoneNumber(String username, String newPhoneNumber) {
+        String sql = "UPDATE users SET phoneNumber = ? WHERE username = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, newPhoneNumber);
+            pstmt.setString(2, username);
+            pstmt.executeUpdate();
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    public void updateEmail(String username, String newEmail) {
+        String sql = "UPDATE users SET email = ? WHERE username = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, newEmail);
+            pstmt.setString(2, username);
+            pstmt.executeUpdate();
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
     }

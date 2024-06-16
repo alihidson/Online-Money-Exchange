@@ -28,10 +28,11 @@ public class LoginSignupPage extends Application {
 
     private TextField newPasswordField, newPasswordAgain;
     private PasswordField passwordField;
-    private Database database;
+
+    public static Database database;
     private int captchaCode;
     private Label captchaCodeLabel;
-    public static String firstNameProf, lastNameProf, AgeProf, userNameProf, phoneNumberProf, emailProf;
+    public static String firstNameProf, lastNameProf, AgeProf, phoneNumberProf, emailProf;
 
     @Override
     public void start(Stage primaryStage) {

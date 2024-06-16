@@ -8,9 +8,6 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
-import javafx.scene.text.Font;
-import javafx.scene.text.FontPosture;
-import javafx.scene.text.FontWeight;
 import javafx.stage.Stage;
 
 public class ProfilePage extends Application {
@@ -49,6 +46,8 @@ public class ProfilePage extends Application {
 
         TextField lastNameField = new TextField(lastName);
 
+        TextField AgeField = new TextField(Age);
+
         TextField passwordField = new TextField(password);
 
         TextField phoneNumberField = new TextField(phoneNumber);
@@ -83,6 +82,7 @@ public class ProfilePage extends Application {
                 usernameLabel,
                 new HBox(10, new Label("First Name:"), firstNameField),
                 new HBox(10, new Label("Last Name:"), lastNameField),
+                new HBox(10, new Label("Age:"), AgeField),
                 new HBox(10, new Label("Password:"), passwordField),
                 new HBox(10, new Label("Phone Number:"), phoneNumberField),
                 new HBox(10, new Label("Email:"), emailField),
@@ -96,16 +96,27 @@ public class ProfilePage extends Application {
 
             firstName = firstNameField.getText();
             lastName = lastNameField.getText();
+            Age = AgeField.getText();
             password = passwordField.getText();
             phoneNumber = phoneNumberField.getText();
             email = emailField.getText();
+
+
+            LoginSignupPage.database.updateFirstName(username, firstName);
+            LoginSignupPage.database.updateLastName(username, lastName);
+            LoginSignupPage.database.updateAge(username, Age);
+            LoginSignupPage.database.updatePassword(username, password);
+            LoginSignupPage.database.updatePhoneNumber(username, phoneNumber);
+            LoginSignupPage.database.updateEmail(username, email);
+
+
 
             System.out.println("Profile updated!");
         });
 
         Scene scene = new Scene(vbox, 400, 500);
 
-        primaryStage.setTitle("User Profile");
+        primaryStage.setTitle("Profile");
         primaryStage.setScene(scene);
         primaryStage.show();
     }
