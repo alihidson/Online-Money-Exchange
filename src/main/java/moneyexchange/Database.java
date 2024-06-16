@@ -1,7 +1,6 @@
 package moneyexchange;
 
 import javafx.scene.control.TextField;
-
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
@@ -13,7 +12,7 @@ public class Database {
 
     public Database() {
         // connection to dataBase
-        String url = "jdbc:sqlite:/Users/ali/Main/Documents/Source/Money-Exchange/Money-Exchange-DataBase/identifier.sqlite";
+        String url = "jdbc:sqlite:/Users/ali/Main/Documents/Source/Money-Exchange/User-DataBase/identifier.sqlite";
 
         try {
             conn = DriverManager.getConnection(url);
@@ -28,6 +27,9 @@ public class Database {
         String sql = "CREATE TABLE IF NOT EXISTS users (" +
                 "    id INTEGER PRIMARY KEY," +
                 "    username TEXT," +
+                "    firstName TEXT," +
+                "    lastName TEXT," +
+                "    Age TEXT," +
                 "    password TEXT," +
                 "    email TEXT," +
                 "    phoneNumber TEXT" +
@@ -42,15 +44,18 @@ public class Database {
         }
     }
 
-    public boolean addUser(String username, String password, String email, String phoneNumber) {
-        String sql = "INSERT INTO users(username, password, email, phoneNumber) VALUES(?, ?, ?, ?)";
+    public boolean addUser(String username, String firstName, String lastName, String Age, String password, String email, String phoneNumber) {
+        String sql = "INSERT INTO users(username, firstName, lastName, Age, password, email, phoneNumber) VALUES(?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, username);
-            pstmt.setString(2, password);
-            pstmt.setString(3, email);
-            pstmt.setString(4, phoneNumber);
+            pstmt.setString(2, firstName);
+            pstmt.setString(3, lastName);
+            pstmt.setString(4, Age);
+            pstmt.setString(5, password);
+            pstmt.setString(6, email);
+            pstmt.setString(7, phoneNumber);
             pstmt.executeUpdate();
             pstmt.close();
             return true;
@@ -77,21 +82,31 @@ public class Database {
         }
     }
 
-    public void getUserInfo(String username, TextField usernameField, TextField phoneNumberField, TextField emailField) {
-        String sql = "SELECT phoneNumber, email FROM users WHERE username = ?";
+    public void getUserInfo(String username, TextField firstNameField, TextField lastNameField, TextField AgeField,
+                            TextField phoneNumberField, TextField emailField) {
+
+        String sql = "SELECT firstName, lastName, Age, phoneNumber, email FROM users WHERE username = ?";
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, username);
             ResultSet rs = pstmt.executeQuery();
             if (rs.next()) {
+                String firstName = rs.getString("firstName");
+                String lastName = rs.getString("lastName");
+                String Age = rs.getString("Age");
                 String phoneNumber = rs.getString("phoneNumber");
                 String email = rs.getString("email");
 
-                LoginSignupPage.userNameProf = username;
+
+                LoginSignupPage.firstNameProf = firstName;
+                LoginSignupPage.lastNameProf = lastName;
+                LoginSignupPage.AgeProf = Age;
                 LoginSignupPage.phoneNumberProf = phoneNumber;
                 LoginSignupPage.emailProf = email;
 
-                usernameField.setText(username);
+                firstNameField.setText(firstName);
+                lastNameField.setText(lastName);
+                AgeField.setText(Age);
                 phoneNumberField.setText(phoneNumber);
                 emailField.setText(email);
             }

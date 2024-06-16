@@ -21,6 +21,9 @@ import javafx.scene.layout.Border;
 
 public class LoginSignupPage extends Application {
 
+    public static String UserName, PassWord;
+
+    private TextField firstNameField, lastNameField, AgeField;
     private TextField usernameField, newUsernameField, emailField, phoneNumber, captchaField;
 
     private TextField newPasswordField, newPasswordAgain;
@@ -28,7 +31,7 @@ public class LoginSignupPage extends Application {
     private Database database;
     private int captchaCode;
     private Label captchaCodeLabel;
-    public static String userNameProf, phoneNumberProf, emailProf;
+    public static String firstNameProf, lastNameProf, AgeProf, userNameProf, phoneNumberProf, emailProf;
 
     @Override
     public void start(Stage primaryStage) {
@@ -62,6 +65,7 @@ public class LoginSignupPage extends Application {
         primaryStage.setResizable(false);
 
 //        primaryStage.setFullScreen(true);
+
 
         database = new Database();
 
@@ -124,6 +128,18 @@ public class LoginSignupPage extends Application {
         Label signupLabel = new Label("Sign Up");
         signupLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
 
+        firstNameField = new TextField();
+        firstNameField.setPromptText("Enter your first name");
+        firstNameField.setMaxWidth(200);
+
+        lastNameField = new TextField();
+        lastNameField.setPromptText("Enter your last name");
+        lastNameField.setMaxWidth(200);
+
+        AgeField = new TextField();
+        AgeField.setPromptText("Enter your Age");
+        AgeField.setMaxWidth(200);
+
         newUsernameField = new TextField();
         newUsernameField.setPromptText("New Username");
         newUsernameField.setMaxWidth(200);
@@ -152,9 +168,11 @@ public class LoginSignupPage extends Application {
         signupButton.setStyle("-fx-background-color: rgb(0, 140, 186); -fx-text-fill: white; -fx-font-size: 16px;");
         signupButton.setOnAction(e -> signup());
         VBox signupVBox = new VBox(10);
-        signupVBox.getChildren().addAll(signupLabel, newUsernameField, newPasswordField, newPasswordAgain, phoneNumber,emailField, signupButton);
+        signupVBox.getChildren().addAll(signupLabel, newUsernameField ,firstNameField, lastNameField, AgeField, newPasswordField, newPasswordAgain, phoneNumber,emailField, signupButton);
         signupVBox.setPadding(new Insets(10));
         signupVBox.setBackground(new Background(new BackgroundFill(Color.rgb(255,171,255), CornerRadii.EMPTY, Insets.EMPTY)));
+        signupVBox.setBorder(new Border(new BorderStroke(Color.rgb(141, 8, 79),
+                BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5))));
         signupVBox.setVisible(false);
 
         // Toggle Button
@@ -199,18 +217,20 @@ public class LoginSignupPage extends Application {
         signupButton.setOnMouseEntered(e -> signupButton.setStyle(String.format(buttonHoverStyle, signupButtonHoverColor)));
         signupButton.setOnMouseExited(e -> signupButton.setStyle(String.format(buttonIdleStyle, signupButtonIdleColor)));
 
+        //applyButtonHoverEffect(toggleButton, String.format(buttonIdleStyle, "rgb(244, 67, 54)"), String.format(buttonHoverStyle, "rgb(244, 67, 54)"));
+
         primaryStage.show();
     }
 
     private void login(Stage primaryStage) {
-        String username = usernameField.getText();
-        String password = passwordField.getText();
+        UserName = usernameField.getText();
+        PassWord = passwordField.getText();
         int captcha = Integer.parseInt(captchaField.getText());
 
-        if (database.validateUser(username, password) && captcha == captchaCode) {
+        if (database.validateUser(UserName, PassWord) && captcha == captchaCode) {
             System.out.println("Login Successful");
 
-            database.getUserInfo(username, usernameField, phoneNumber, emailField);
+            database.getUserInfo(UserName, firstNameField, lastNameField, AgeField, phoneNumber, emailField);
 
             primaryStage.close();
             Stage HomeStage = new Stage();
@@ -237,7 +257,8 @@ public class LoginSignupPage extends Application {
 
         int sw = 1;
 
-        if(newUsernameField.getText() == null || newPasswordField.getText() == null
+        if(firstNameField.getText() == null || lastNameField.getText() == null || AgeField == null
+                || newUsernameField.getText() == null || newPasswordField.getText() == null
                 || emailField.getText() == null || newPasswordAgain.getText() == null
                 || phoneNumber.getText() == null) {
 
@@ -290,6 +311,9 @@ public class LoginSignupPage extends Application {
         }
 
 
+        String firstName = firstNameField.getText();
+        String lastName = lastNameField.getText();
+        String Age = AgeField.getText();
         String newUsername = newUsernameField.getText();
         String newPassword = newPasswordField.getText();
         String newEmail = emailField.getText();
@@ -298,7 +322,7 @@ public class LoginSignupPage extends Application {
 
 
         if(sw == 1) {
-            database.addUser(newUsername, newPassword, newEmail, newPhoneNumber);
+            database.addUser(newUsername, firstName, lastName, Age, newPassword, newEmail, newPhoneNumber);
             System.out.println("Sign Up Successful");
         }
         else {

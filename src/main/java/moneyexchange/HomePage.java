@@ -232,7 +232,11 @@ public class HomePage extends Application {
 
     public void openProfilePage() {
         Stage profileStage = new Stage();
-        ProfilePage profilePage = new ProfilePage(LoginSignupPage.userNameProf, LoginSignupPage.phoneNumberProf, LoginSignupPage.emailProf);
+
+        ProfilePage profilePage = new ProfilePage(LoginSignupPage.UserName, LoginSignupPage.firstNameProf,
+                LoginSignupPage.lastNameProf, LoginSignupPage.AgeProf, LoginSignupPage.PassWord,
+                LoginSignupPage.phoneNumberProf, LoginSignupPage.emailProf);
+
         profilePage.start(profileStage);
     }
 
