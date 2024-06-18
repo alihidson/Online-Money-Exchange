@@ -8,6 +8,7 @@ import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class ProfilePage extends Application {
@@ -19,8 +20,7 @@ public class ProfilePage extends Application {
     private String password;
     private String phoneNumber;
     private String email;
-    String imagePath = "file:/Users/ali/Main/Documents/Source/Money-Exchange/src/image/background.jpg";
-    private Image profileImage = new Image(imagePath);
+    String imagePath = "file:/Users/ali/Main/Documents/Source/Money-Exchange/src/image/person.jpg";
 
 
 
@@ -57,10 +57,14 @@ public class ProfilePage extends Application {
 
 
         // Profile image
-        ImageView profileImageView = new ImageView(profileImage);
+        ImageView profileImageView = new ImageView(new Image(imagePath));
         profileImageView.setFitWidth(100);
         profileImageView.setFitHeight(100);
         profileImageView.setPreserveRatio(true);
+
+
+        Circle clip = new Circle(50, 35, 30); // x, y, radius
+        profileImageView.setClip(clip);
 
         // Buttons
         Button editButton = new Button("Edit Profile");
@@ -70,12 +74,12 @@ public class ProfilePage extends Application {
         // Layout
         VBox vbox = new VBox(10);
         vbox.setPadding(new Insets(20));
-        vbox.setBackground(new Background(new BackgroundFill(Color.LIGHTGRAY, CornerRadii.EMPTY, Insets.EMPTY)));
+        vbox.setBackground(new Background(new BackgroundFill(Color.rgb(45, 201, 198), CornerRadii.EMPTY, Insets.EMPTY)));
         vbox.setBorder(new javafx.scene.layout.Border(new javafx.scene.layout.BorderStroke(
-                Color.GRAY,
+                Color.rgb(103, 23, 201),
                 javafx.scene.layout.BorderStrokeStyle.SOLID,
                 CornerRadii.EMPTY,
-                javafx.scene.layout.BorderWidths.DEFAULT)));
+                BorderWidths.DEFAULT)));
 
         vbox.getChildren().addAll(
                 profileImageView,

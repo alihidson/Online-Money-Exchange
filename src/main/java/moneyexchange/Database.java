@@ -12,7 +12,7 @@ public class Database {
 
     public Database() {
         // connection to dataBase
-        String url = "jdbc:sqlite:/Users/ali/Main/Documents/Source/Money-Exchange/User-DataBase/identifier.sqlite";
+        String url = "jdbc:sqlite:/Users/ali/Main/Documents/Source/Money-Exchange/User-Data/identifier.sqlite";
 
         try {
             conn = DriverManager.getConnection(url);
@@ -210,6 +210,23 @@ public class Database {
         }
         catch (SQLException e) {
             e.printStackTrace();
+        }
+    }
+
+    public boolean isUsernameAvailable(String inputUsername) {
+        String sql = "SELECT username FROM users WHERE username = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, inputUsername);
+            ResultSet rs = pstmt.executeQuery();
+            boolean isAvailable = !rs.next();
+            rs.close();
+            pstmt.close();
+            return isAvailable;
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+            return false;
         }
     }
 

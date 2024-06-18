@@ -4,12 +4,14 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
+import javafx.scene.control.cell.ChoiceBoxTableCell;
 import javafx.scene.layout.*;
 import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import java.util.regex.*;
 import javafx.scene.control.Alert;
 import javafx.scene.control.Alert.AlertType;
+import javafx.scene.control.ChoiceBox;
 import javafx.scene.control.Hyperlink;
 import java.util.*;
 import javax.mail.*;
@@ -239,7 +241,11 @@ public class LoginSignupPage extends Application {
             homePage.start(HomeStage);
         }
         else {
-            System.out.println("Invalid Username, Password, or Captcha");
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Wrong");
+            alert.setHeaderText("Username not found");
+            alert.setContentText("The username was not found in database.");
+            alert.showAndWait();
         }
 
         if(Integer.parseInt(captchaField.getText()) != captchaCode) {
@@ -258,7 +264,16 @@ public class LoginSignupPage extends Application {
 
         int sw = 1;
 
-        if(firstNameField.getText() == null || lastNameField.getText() == null || AgeField == null
+
+        if(database.isUsernameAvailable(usernameField.getText())) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Sorry");
+            alert.setContentText("This Username has Available, please write another username");
+            sw = 0;
+            alert.showAndWait();
+        }
+        else if(firstNameField.getText() == null || lastNameField.getText() == null || AgeField == null
                 || newUsernameField.getText() == null || newPasswordField.getText() == null
                 || emailField.getText() == null || newPasswordAgain.getText() == null
                 || phoneNumber.getText() == null) {
@@ -312,23 +327,32 @@ public class LoginSignupPage extends Application {
         }
 
 
-        String firstName = firstNameField.getText();
-        String lastName = lastNameField.getText();
-        String Age = AgeField.getText();
-        String newUsername = newUsernameField.getText();
-        String newPassword = newPasswordField.getText();
-        String newEmail = emailField.getText();
-        String newPhoneNumber = phoneNumber.getText();
-
-
 
         if(sw == 1) {
+
+            String firstName = firstNameField.getText();
+            String lastName = lastNameField.getText();
+            String Age = AgeField.getText();
+            String newUsername = newUsernameField.getText();
+            String newPassword = newPasswordField.getText();
+            String newEmail = emailField.getText();
+            String newPhoneNumber = phoneNumber.getText();
+
             database.addUser(newUsername, firstName, lastName, Age, newPassword, newEmail, newPhoneNumber);
-            System.out.println("Sign Up Successful");
+
+            Alert alert = new Alert(AlertType.ERROR);
+            alert.setTitle("Sign Up Successful");
+            alert.setHeaderText("You Successfully create Account");
+            alert.setContentText("Now you can Login to your Account by Login Page");
+
         }
-        else {
-            System.out.println("Sign Up Failed");
-        }
+//        else {
+//            Alert alert = new Alert(AlertType.ERROR);
+//            alert.setTitle("Wrong");
+//            alert.setHeaderText("Wrong Sign Up");
+//            alert.setContentText("Sorry Something happened");
+//            alert.showAndWait();
+//        }
     }
 
     private int generateRandomNumber() {
@@ -358,7 +382,7 @@ public class LoginSignupPage extends Application {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Password Reset");
             alert.setHeaderText("Username not found");
-            alert.setContentText("The provided username was not found in our database.");
+            alert.setContentText("The username was not found in database.");
             alert.showAndWait();
         }
     }
