@@ -265,15 +265,15 @@ public class LoginSignupPage extends Application {
         int sw = 1;
 
 
-        if(database.isUsernameAvailable(usernameField.getText())) {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText("Sorry");
-            alert.setContentText("This Username has Available, please write another username");
-            sw = 0;
-            alert.showAndWait();
-        }
-        else if(firstNameField.getText() == null || lastNameField.getText() == null || AgeField == null
+//        if(database.isUsernameAvailable(usernameField.getText())) {
+//            Alert alert = new Alert(AlertType.INFORMATION);
+//            alert.setTitle("Error");
+//            alert.setHeaderText("Sorry");
+//            alert.setContentText("This Username has Available, please write another username");
+//            sw = 0;
+//            alert.showAndWait();
+//        }
+        if(firstNameField.getText() == null || lastNameField.getText() == null || AgeField == null
                 || newUsernameField.getText() == null || newPasswordField.getText() == null
                 || emailField.getText() == null || newPasswordAgain.getText() == null
                 || phoneNumber.getText() == null) {

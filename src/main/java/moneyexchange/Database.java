@@ -12,7 +12,7 @@ public class Database {
 
     public Database() {
         // connection to dataBase
-        String url = "jdbc:sqlite:/Users/ali/Main/Documents/Source/Money-Exchange/User-Data/identifier.sqlite";
+        String url = "jdbc:sqlite:/Users/ali/Main/Documents/Source/Money-Exchange/DataUserTest/identifier.sqlite";
 
         try {
             conn = DriverManager.getConnection(url);
