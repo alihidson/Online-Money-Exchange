@@ -25,7 +25,6 @@ public class HomePage extends Application {
 
     @Override
     public void start(Stage primaryStage) {
-        primaryStage.setTitle("Digital Currencies");
 
         String imagePath = "file:/Users/ali/Main/Documents/Source/Money-Exchange/src/image/icon.png";
         Image icon = new Image(imagePath);
@@ -86,7 +85,7 @@ public class HomePage extends Application {
         VBox vbox = new VBox(menuBar, table); // Add the MenuBar to the VBox
         Scene scene = new Scene(vbox, 400, 300); // Adjust the size as needed
         primaryStage.setScene(scene);
-        primaryStage.setTitle("Currency Prices");
+        primaryStage.setTitle("Currency");
         primaryStage.show();
 
         // Show initial data
