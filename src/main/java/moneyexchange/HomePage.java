@@ -95,18 +95,21 @@ public class HomePage extends Application {
         readCSV();
 
         // Create StackPane for centering the table
-        StackPane stackPane = new StackPane();
-        stackPane.getChildren().add(tableView);
-        stackPane.setAlignment(Pos.CENTER);
-        stackPane.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, null)));
+        StackPane tablePane = new StackPane();
+        tablePane.getChildren().add(tableView);
+        tablePane.setAlignment(Pos.CENTER);
+
+        // Add border and background to the tablePane
+        tablePane.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, new CornerRadii(10), BorderWidths.DEFAULT)));
+        tablePane.setBackground(new Background(new BackgroundFill(Color.ORANGE, new CornerRadii(10), null)));
 
         // Set size for the tableView
         tableView.setMaxSize(800, 600);
 
-        // Create BorderPane with MenuBar at the top and table in the center
+        // Create BorderPane with MenuBar at the top and tablePane in the center
         BorderPane borderPane = new BorderPane();
         borderPane.setTop(menuBar);
-        borderPane.setCenter(stackPane);
+        borderPane.setCenter(tablePane);
 
         // Create scene with BorderPane
         Scene scene = new Scene(borderPane, 1280, 740);
