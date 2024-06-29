@@ -1,11 +1,13 @@
 package moneyexchange;
 
 import javafx.application.Application;
+import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
 import javafx.scene.image.Image;
-import javafx.scene.layout.VBox;
+import javafx.scene.layout.*;
+import javafx.scene.paint.Color;
 import javafx.stage.Stage;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
@@ -29,8 +31,6 @@ public class HomePage extends Application {
         String imagePath = "file:/Users/ali/Main/Documents/Source/Money-Exchange/src/image/icon.png";
         Image icon = new Image(imagePath);
         primaryStage.getIcons().add(icon);
-
-        primaryStage.setResizable(false);
 
         // Create MenuBar
         MenuBar menuBar = new MenuBar();
@@ -71,28 +71,45 @@ public class HomePage extends Application {
         // Setup columns
         TableColumn<CurrencyInfo, String> nameColumn = new TableColumn<>("Currency");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
+        nameColumn.setMinWidth(60);
 
         TableColumn<CurrencyInfo, String> priceColumn = new TableColumn<>("Price");
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
+        priceColumn.setMinWidth(60);
 
         TableColumn<CurrencyInfo, String> changeColumn = new TableColumn<>("Change");
         changeColumn.setCellValueFactory(new PropertyValueFactory<>("change"));
+        changeColumn.setMinWidth(60);
 
         TableColumn<CurrencyInfo, String> highestColumn = new TableColumn<>("Highest");
         highestColumn.setCellValueFactory(new PropertyValueFactory<>("highest"));
+        highestColumn.setMinWidth(60);
 
         TableColumn<CurrencyInfo, String> lowestColumn = new TableColumn<>("Lowest");
         lowestColumn.setCellValueFactory(new PropertyValueFactory<>("lowest"));
+        lowestColumn.setMinWidth(60);
 
         tableView.getColumns().addAll(nameColumn, priceColumn, changeColumn, highestColumn, lowestColumn);
-
 
         // Read initial data
         readCSV();
 
-        // create the scene
-        VBox vbox = new VBox(menuBar, tableView); // Add the MenuBar to the VBox
-        Scene scene = new Scene(vbox, 400, 300); // Adjust the size as needed
+        // Create StackPane for centering the table
+        StackPane stackPane = new StackPane();
+        stackPane.getChildren().add(tableView);
+        stackPane.setAlignment(Pos.CENTER);
+        stackPane.setBackground(new Background(new BackgroundFill(Color.ORANGE, CornerRadii.EMPTY, null)));
+
+        // Set size for the tableView
+        tableView.setMaxSize(800, 600);
+
+        // Create BorderPane with MenuBar at the top and table in the center
+        BorderPane borderPane = new BorderPane();
+        borderPane.setTop(menuBar);
+        borderPane.setCenter(stackPane);
+
+        // Create scene with BorderPane
+        Scene scene = new Scene(borderPane, 1280, 740);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Currency");
         primaryStage.show();
@@ -100,7 +117,7 @@ public class HomePage extends Application {
         // Show initial data
         updateTable();
 
-        // updater to run every minute
+        // Updater to run every minute
         Timeline timeline = new Timeline(new KeyFrame(Duration.minutes(1), event -> updateTable()));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
