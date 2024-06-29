@@ -19,7 +19,7 @@ import java.util.List;
 
 public class HomePage extends Application {
 
-    private TableView<CurrencyInfo> table = new TableView<>();
+    private TableView<CurrencyInfo> tableView = new TableView<>();
     private List<List<CurrencyInfo>> prices = new ArrayList<>();
     private int currentLine = 0;
 
@@ -75,14 +75,23 @@ public class HomePage extends Application {
         TableColumn<CurrencyInfo, String> priceColumn = new TableColumn<>("Price");
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
 
-        table.getColumns().add(nameColumn);
-        table.getColumns().add(priceColumn);
+        TableColumn<CurrencyInfo, String> changeColumn = new TableColumn<>("Change");
+        changeColumn.setCellValueFactory(new PropertyValueFactory<>("change"));
+
+        TableColumn<CurrencyInfo, String> highestColumn = new TableColumn<>("Highest");
+        highestColumn.setCellValueFactory(new PropertyValueFactory<>("highest"));
+
+        TableColumn<CurrencyInfo, String> lowestColumn = new TableColumn<>("Lowest");
+        lowestColumn.setCellValueFactory(new PropertyValueFactory<>("lowest"));
+
+        tableView.getColumns().addAll(nameColumn, priceColumn, changeColumn, highestColumn, lowestColumn);
+
 
         // Read initial data
         readCSV();
 
         // create the scene
-        VBox vbox = new VBox(menuBar, table); // Add the MenuBar to the VBox
+        VBox vbox = new VBox(menuBar, tableView); // Add the MenuBar to the VBox
         Scene scene = new Scene(vbox, 400, 300); // Adjust the size as needed
         primaryStage.setScene(scene);
         primaryStage.setTitle("Currency");
@@ -115,7 +124,8 @@ public class HomePage extends Application {
                     prices.add(linePrices);
                 }
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
     }
@@ -123,8 +133,8 @@ public class HomePage extends Application {
     private void updateTable() {
         if (currentLine < prices.size()) {
             List<CurrencyInfo> linePrices = prices.get(currentLine);
-            table.getItems().clear();
-            table.getItems().addAll(linePrices);
+            tableView.getItems().clear();
+            tableView.getItems().addAll(linePrices);
             currentLine++;
         }
     }

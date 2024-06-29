@@ -240,19 +240,18 @@ public class LoginSignupPage extends Application {
             HomePage homePage = new HomePage();
             homePage.start(HomeStage);
         }
+        else if(Integer.parseInt(captchaField.getText()) != captchaCode) {
+            Alert alert = new Alert(AlertType.INFORMATION);
+            alert.setTitle("Error");
+            alert.setHeaderText("Sorry");
+            alert.setContentText("Invalid Captcha, please try again");
+            alert.showAndWait();
+        }
         else {
             Alert alert = new Alert(AlertType.ERROR);
             alert.setTitle("Wrong");
             alert.setHeaderText("Username not found");
             alert.setContentText("The username was not found in database.");
-            alert.showAndWait();
-        }
-
-        if(Integer.parseInt(captchaField.getText()) != captchaCode) {
-            Alert alert = new Alert(AlertType.INFORMATION);
-            alert.setTitle("Error");
-            alert.setHeaderText("Sorry");
-            alert.setContentText("Invalid Captcha, please try again");
             alert.showAndWait();
         }
 
@@ -308,7 +307,7 @@ public class LoginSignupPage extends Application {
 
         else {
             boolean flag = true;
-            for(int i=0; i< newPasswordField.getText().length() && i< newPasswordField.getText().length() && flag; i++) {
+            for(int i=0; i< newPasswordField.getText().length() && i< newPasswordAgain.getText().length() && flag; i++) {
                 if(newPasswordField.getText().charAt(i) != newPasswordAgain.getText().charAt(i)) {
                     flag = false;
                 }
