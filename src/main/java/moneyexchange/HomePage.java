@@ -2,7 +2,6 @@ package moneyexchange;
 
 import javafx.application.Application;
 import javafx.geometry.Insets;
-import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
 import javafx.scene.control.cell.PropertyValueFactory;
@@ -72,25 +71,34 @@ public class HomePage extends Application {
         // Setup columns
         TableColumn<CurrencyInfo, String> nameColumn = new TableColumn<>("Currency");
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
-        nameColumn.setMinWidth(60);
+        nameColumn.setMinWidth(100);
 
         TableColumn<CurrencyInfo, String> priceColumn = new TableColumn<>("Price");
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
-        priceColumn.setMinWidth(60);
+        priceColumn.setMinWidth(100);
 
         TableColumn<CurrencyInfo, String> changeColumn = new TableColumn<>("Change");
         changeColumn.setCellValueFactory(new PropertyValueFactory<>("change"));
-        changeColumn.setMinWidth(60);
+        changeColumn.setMinWidth(100);
 
         TableColumn<CurrencyInfo, String> highestColumn = new TableColumn<>("Highest");
         highestColumn.setCellValueFactory(new PropertyValueFactory<>("highest"));
-        highestColumn.setMinWidth(60);
+        highestColumn.setMinWidth(100);
 
         TableColumn<CurrencyInfo, String> lowestColumn = new TableColumn<>("Lowest");
         lowestColumn.setCellValueFactory(new PropertyValueFactory<>("lowest"));
-        lowestColumn.setMinWidth(60);
+        lowestColumn.setMinWidth(100);
 
         tableView.getColumns().addAll(nameColumn, priceColumn, changeColumn, highestColumn, lowestColumn);
+
+
+        // Set row height
+        tableView.setRowFactory(tv -> {
+            TableRow<CurrencyInfo> row = new TableRow<>();
+            row.setPrefHeight(40); // Set preferred height for each row
+            return row;
+        });
+
 
         // Read initial data
         readCSV();
@@ -110,7 +118,7 @@ public class HomePage extends Application {
 
 
         // Set size for the tableView
-        tableView.setMaxSize(800, 600);
+        tableView.setMaxSize(518, 248);
 
         // Create BorderPane with MenuBar at the top and tablePane in the center
         BorderPane root = new BorderPane();
