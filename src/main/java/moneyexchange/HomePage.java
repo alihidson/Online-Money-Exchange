@@ -1,6 +1,7 @@
 package moneyexchange;
 
 import javafx.application.Application;
+import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
 import javafx.scene.control.*;
@@ -94,30 +95,35 @@ public class HomePage extends Application {
         // Read initial data
         readCSV();
 
-        // Create StackPane for centering the table
-        StackPane tablePane = new StackPane();
-        tablePane.getChildren().add(tableView);
-        tablePane.setAlignment(Pos.CENTER);
 
-        // Add border and background to the tablePane
-        tablePane.setBorder(new Border(new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, new CornerRadii(10), BorderWidths.DEFAULT)));
-        tablePane.setBackground(new Background(new BackgroundFill(Color.ORANGE, new CornerRadii(10), null)));
+        VBox tableContainer = new VBox(tableView);
+        tableContainer.setPadding(new Insets(20));
+        tableContainer.setStyle("-fx-background-color: rgb(255, 123, 70);");
+
+        // Set border around the table container
+        tableContainer.setBorder(new Border(
+                new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5))));
+
+        // Set border around the table view
+        tableView.setBorder(new Border(
+                new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5))));
+
 
         // Set size for the tableView
         tableView.setMaxSize(800, 600);
 
         // Create BorderPane with MenuBar at the top and tablePane in the center
-        BorderPane borderPane = new BorderPane();
-        borderPane.setTop(menuBar);
-        borderPane.setCenter(tablePane);
+        BorderPane root = new BorderPane();
+        root.setTop(menuBar);
+        root.setCenter(tableContainer);
 
         // Create scene with BorderPane
-        Scene scene = new Scene(borderPane, 1280, 740);
+        Scene scene = new Scene(root, 1280, 740);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Currency");
         primaryStage.show();
 
-        // Show initial data
+    // Show initial data
         updateTable();
 
         // Updater to run every minute
