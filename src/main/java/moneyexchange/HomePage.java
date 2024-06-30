@@ -12,12 +12,16 @@ import javafx.stage.Stage;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import java.util.ArrayList;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
+
 
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
-import java.util.ArrayList;
-import java.util.List;
+
 
 public class HomePage extends Application {
 
@@ -77,20 +81,19 @@ public class HomePage extends Application {
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         priceColumn.setMinWidth(100);
 
+        TableColumn<CurrencyInfo, String> highestColumn = new TableColumn<>("Highest");
+        highestColumn.setCellValueFactory(new PropertyValueFactory<>("maxValue"));
+        highestColumn.setMinWidth(100);
+
+        TableColumn<CurrencyInfo, String> lowestColumn = new TableColumn<>("Lowest");
+        lowestColumn.setCellValueFactory(new PropertyValueFactory<>("minValue"));
+        lowestColumn.setMinWidth(100);
+
         TableColumn<CurrencyInfo, String> changeColumn = new TableColumn<>("Change");
         changeColumn.setCellValueFactory(new PropertyValueFactory<>("change"));
         changeColumn.setMinWidth(100);
 
-        TableColumn<CurrencyInfo, String> highestColumn = new TableColumn<>("Highest");
-        highestColumn.setCellValueFactory(new PropertyValueFactory<>("highest"));
-        highestColumn.setMinWidth(100);
-
-        TableColumn<CurrencyInfo, String> lowestColumn = new TableColumn<>("Lowest");
-        lowestColumn.setCellValueFactory(new PropertyValueFactory<>("lowest"));
-        lowestColumn.setMinWidth(100);
-
-        tableView.getColumns().addAll(nameColumn, priceColumn, changeColumn, highestColumn, lowestColumn);
-
+        tableView.getColumns().addAll(nameColumn, priceColumn, highestColumn, lowestColumn, changeColumn);
 
         // Set row height
         tableView.setRowFactory(tv -> {
@@ -99,23 +102,20 @@ public class HomePage extends Application {
             return row;
         });
 
-
         // Read initial data
         readCSV();
-
 
         VBox tableContainer = new VBox(tableView);
         tableContainer.setPadding(new Insets(20));
         tableContainer.setStyle("-fx-background-color: rgb(255, 123, 70);");
 
-        // Set border around the table container
+        // Set border around the table container (all page)
         tableContainer.setBorder(new Border(
                 new BorderStroke(Color.GREEN, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5))));
 
         // Set border around the table view
         tableView.setBorder(new Border(
                 new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5))));
-
 
         // Set size for the tableView
         tableView.setMaxSize(518, 248);
@@ -131,7 +131,7 @@ public class HomePage extends Application {
         primaryStage.setTitle("Currency");
         primaryStage.show();
 
-    // Show initial data
+        // Show initial data
         updateTable();
 
         // Updater to run every minute
@@ -148,8 +148,9 @@ public class HomePage extends Application {
 
             while ((line = br.readLine()) != null) {
                 String[] data = line.split(",");
-                if (data.length >= 7) { // Adjusted length check to >= 7
+                if (data.length >= 7) {
                     List<CurrencyInfo> linePrices = new ArrayList<>();
+
                     linePrices.add(new CurrencyInfo("USD", data[2]));
                     linePrices.add(new CurrencyInfo("EUR", data[3]));
                     linePrices.add(new CurrencyInfo("TOMAN", data[4]));
@@ -167,8 +168,23 @@ public class HomePage extends Application {
     private void updateTable() {
         if (currentLine < prices.size()) {
             List<CurrencyInfo> linePrices = prices.get(currentLine);
-            tableView.getItems().clear();
-            tableView.getItems().addAll(linePrices);
+            Map<String, CurrencyInfo> currencyMap = new HashMap<>();
+
+            for (CurrencyInfo currencyInfo : tableView.getItems()) {
+                currencyMap.put(currencyInfo.getName(), currencyInfo);
+            }
+
+            for (CurrencyInfo newCurrencyInfo : linePrices) {
+                CurrencyInfo existingCurrencyInfo = currencyMap.get(newCurrencyInfo.getName());
+                if (existingCurrencyInfo != null) {
+                    existingCurrencyInfo.setPrice(newCurrencyInfo.getPrice());
+                }
+                else {
+                    tableView.getItems().add(newCurrencyInfo);
+                }
+            }
+
+            tableView.refresh();
             currentLine++;
         }
     }
