@@ -17,12 +17,6 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
-import java.io.BufferedReader;
-import java.io.FileReader;
-import java.io.IOException;
-
-
 public class HomePage extends Application {
 
     private TableView<CurrencyInfo> tableView = new TableView<>();
@@ -103,7 +97,8 @@ public class HomePage extends Application {
         });
 
         // Read initial data
-        readCSV();
+        CSVReader csvReader = new CSVReader();
+        prices = csvReader.readCSV("/Users/ali/Main/Documents/Source/Money-Exchange/Currency-Data/data.csv");
 
         VBox tableContainer = new VBox(tableView);
         tableContainer.setPadding(new Insets(20));
@@ -138,31 +133,6 @@ public class HomePage extends Application {
         Timeline timeline = new Timeline(new KeyFrame(Duration.minutes(1), event -> updateTable()));
         timeline.setCycleCount(Timeline.INDEFINITE);
         timeline.play();
-    }
-
-    private void readCSV() {
-        String line;
-        try (BufferedReader br = new BufferedReader(new FileReader("/Users/ali/Main/Documents/Source/Money-Exchange/Currency-Data/data.csv"))) {
-            // Skip header
-            br.readLine();
-
-            while ((line = br.readLine()) != null) {
-                String[] data = line.split(",");
-                if (data.length >= 7) {
-                    List<CurrencyInfo> linePrices = new ArrayList<>();
-
-                    linePrices.add(new CurrencyInfo("USD", data[2]));
-                    linePrices.add(new CurrencyInfo("EUR", data[3]));
-                    linePrices.add(new CurrencyInfo("TOMAN", data[4]));
-                    linePrices.add(new CurrencyInfo("YEN", data[5]));
-                    linePrices.add(new CurrencyInfo("GBP", data[6]));
-                    prices.add(linePrices);
-                }
-            }
-        }
-        catch (IOException e) {
-            e.printStackTrace();
-        }
     }
 
     private void updateTable() {
