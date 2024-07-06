@@ -3,14 +3,18 @@ package moneyexchange;
 public class CurrencyInfo {
     private String name;
     private String price;
+    private String date;
+    private String time;
     private double maxValue;
     private double minValue;
     private String previousPrice;
     private String change;
 
-    public CurrencyInfo(String name, String price) {
+    public CurrencyInfo(String name, String price, String date, String time) {
         this.name = name;
         this.price = price;
+        this.date = date;
+        this.time = time;
         this.maxValue = Double.parseDouble(price);
         this.minValue = Double.parseDouble(price);
         this.previousPrice = price;
@@ -59,5 +63,21 @@ public class CurrencyInfo {
         double current = Double.parseDouble(price);
         double difference = current - previous;
         this.change = String.format("%.2f", difference);
+    }
+
+    public String getDate() {
+        return date;
+    }
+
+    public void setDate(String date) {
+        this.date = date;
+    }
+
+    public String getTime() {
+        return time;
+    }
+
+    public void setTime(String time) {
+        this.time = time;
     }
 }

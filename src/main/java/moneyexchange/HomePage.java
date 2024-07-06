@@ -71,6 +71,14 @@ public class HomePage extends Application {
         nameColumn.setCellValueFactory(new PropertyValueFactory<>("name"));
         nameColumn.setMinWidth(100);
 
+        TableColumn<CurrencyInfo, String> dateColumn = new TableColumn<>("Date");
+        dateColumn.setCellValueFactory(new PropertyValueFactory<>("date"));
+        dateColumn.setMinWidth(100);
+
+        TableColumn<CurrencyInfo, String> timeColumn = new TableColumn<>("Time");
+        timeColumn.setCellValueFactory(new PropertyValueFactory<>("time"));
+        timeColumn.setMinWidth(100);
+
         TableColumn<CurrencyInfo, String> priceColumn = new TableColumn<>("Price");
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         priceColumn.setMinWidth(100);
@@ -87,7 +95,7 @@ public class HomePage extends Application {
         changeColumn.setCellValueFactory(new PropertyValueFactory<>("change"));
         changeColumn.setMinWidth(100);
 
-        tableView.getColumns().addAll(nameColumn, priceColumn, highestColumn, lowestColumn, changeColumn);
+        tableView.getColumns().addAll(nameColumn, dateColumn, timeColumn, priceColumn, highestColumn, lowestColumn, changeColumn);
 
         // Set row height
         tableView.setRowFactory(tv -> {
@@ -113,7 +121,7 @@ public class HomePage extends Application {
                 new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5))));
 
         // Set size for the tableView
-        tableView.setMaxSize(518, 248);
+        tableView.setMaxSize(718, 248);
 
         // Create BorderPane with MenuBar at the top and tablePane in the center
         BorderPane root = new BorderPane();
@@ -148,8 +156,9 @@ public class HomePage extends Application {
                 CurrencyInfo existingCurrencyInfo = currencyMap.get(newCurrencyInfo.getName());
                 if (existingCurrencyInfo != null) {
                     existingCurrencyInfo.setPrice(newCurrencyInfo.getPrice());
-                }
-                else {
+                    existingCurrencyInfo.setDate(newCurrencyInfo.getDate());
+                    existingCurrencyInfo.setTime(newCurrencyInfo.getTime());
+                } else {
                     tableView.getItems().add(newCurrencyInfo);
                 }
             }

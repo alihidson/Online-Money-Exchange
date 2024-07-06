@@ -21,19 +21,19 @@ public class CSVReader {
                 if (data.length >= 7) {
                     List<CurrencyInfo> linePrices = new ArrayList<>();
 
-                    linePrices.add(new CurrencyInfo("USD", data[2]));
-                    linePrices.add(new CurrencyInfo("EUR", data[3]));
-                    linePrices.add(new CurrencyInfo("TOMAN", data[4]));
-                    linePrices.add(new CurrencyInfo("YEN", data[5]));
-                    linePrices.add(new CurrencyInfo("GBP", data[6]));
+                    linePrices.add(new CurrencyInfo("USD", data[2], data[0], data[1]));
+                    linePrices.add(new CurrencyInfo("EUR", data[3], data[0], data[1]));
+                    linePrices.add(new CurrencyInfo("TOMAN", data[4], data[0], data[1]));
+                    linePrices.add(new CurrencyInfo("YEN", data[5], data[0], data[1]));
+                    linePrices.add(new CurrencyInfo("GBP", data[6], data[0], data[1]));
                     prices.add(linePrices);
                 }
             }
-        }
-        catch (IOException e) {
+        } catch (IOException e) {
             e.printStackTrace();
         }
 
         return prices;
     }
 }
+
