@@ -332,4 +332,154 @@ public class Database {
         return false;
     }
 
+
+    public double updateUSD(String username, double amount) {
+        String sqlSelect = "SELECT USD FROM users WHERE username = ?";
+        String sqlUpdate = "UPDATE users SET USD = ? WHERE username = ?";
+
+        try {
+            PreparedStatement pstmtSelect = conn.prepareStatement(sqlSelect);
+            pstmtSelect.setString(1, username);
+            ResultSet rs = pstmtSelect.executeQuery();
+            if (rs.next()) {
+                double currentUSD = Double.parseDouble(rs.getString("USD"));
+                double newUSD = currentUSD + amount;
+
+
+                PreparedStatement pstmtUpdate = conn.prepareStatement(sqlUpdate);
+                pstmtUpdate.setString(1, Double.toString(newUSD));
+                pstmtUpdate.setString(2, username);
+                pstmtUpdate.executeUpdate();
+
+                pstmtSelect.close();
+                pstmtUpdate.close();
+                return newUSD;
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+
+    public double updateEUR(String username, double amount) {
+        String sqlSelect = "SELECT EUR FROM users WHERE username = ?";
+        String sqlUpdate = "UPDATE users SET EUR = ? WHERE username = ?";
+
+        try {
+            PreparedStatement pstmtSelect = conn.prepareStatement(sqlSelect);
+            pstmtSelect.setString(1, username);
+            ResultSet rs = pstmtSelect.executeQuery();
+            if (rs.next()) {
+                double currentEUR = Double.parseDouble(rs.getString("EUR"));
+                double newEUR = currentEUR + amount;
+
+
+                PreparedStatement pstmtUpdate = conn.prepareStatement(sqlUpdate);
+                pstmtUpdate.setString(1, Double.toString(newEUR));
+                pstmtUpdate.setString(2, username);
+                pstmtUpdate.executeUpdate();
+
+                pstmtSelect.close();
+                pstmtUpdate.close();
+                return newEUR;
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+
+    public double updateTOMAN(String username, double amount) {
+        String sqlSelect = "SELECT TOMAN FROM users WHERE username = ?";
+        String sqlUpdate = "UPDATE users SET TOMAN = ? WHERE username = ?";
+
+        try {
+            PreparedStatement pstmtSelect = conn.prepareStatement(sqlSelect);
+            pstmtSelect.setString(1, username);
+            ResultSet rs = pstmtSelect.executeQuery();
+            if (rs.next()) {
+                double currentTOMAN = Double.parseDouble(rs.getString("TOMAN"));
+                double newTOMAN = currentTOMAN + amount;
+
+
+                PreparedStatement pstmtUpdate = conn.prepareStatement(sqlUpdate);
+                pstmtUpdate.setString(1, Double.toString(newTOMAN));
+                pstmtUpdate.setString(2, username);
+                pstmtUpdate.executeUpdate();
+
+                pstmtSelect.close();
+                pstmtUpdate.close();
+                return newTOMAN;
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+
+    public double updateYEN(String username, double amount) {
+        String sqlSelect = "SELECT YEN FROM users WHERE username = ?";
+        String sqlUpdate = "UPDATE users SET YEN = ? WHERE username = ?";
+
+        try {
+            PreparedStatement pstmtSelect = conn.prepareStatement(sqlSelect);
+            pstmtSelect.setString(1, username);
+            ResultSet rs = pstmtSelect.executeQuery();
+            if (rs.next()) {
+                double currentYEN = Double.parseDouble(rs.getString("YEN"));
+                double newYEN = currentYEN + amount;
+
+
+                PreparedStatement pstmtUpdate = conn.prepareStatement(sqlUpdate);
+                pstmtUpdate.setString(1, Double.toString(newYEN));
+                pstmtUpdate.setString(2, username);
+                pstmtUpdate.executeUpdate();
+
+                pstmtSelect.close();
+                pstmtUpdate.close();
+                return newYEN;
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
+
+    public double updateGBP(String username, double amount) {
+        String sqlSelect = "SELECT GBP FROM users WHERE username = ?";
+        String sqlUpdate = "UPDATE users SET GBP = ? WHERE username = ?";
+
+        try {
+            PreparedStatement pstmtSelect = conn.prepareStatement(sqlSelect);
+            pstmtSelect.setString(1, username);
+            ResultSet rs = pstmtSelect.executeQuery();
+            if (rs.next()) {
+                double currentGBP = Double.parseDouble(rs.getString("GBP"));
+                double newGBP = currentGBP + amount;
+
+
+                PreparedStatement pstmtUpdate = conn.prepareStatement(sqlUpdate);
+                pstmtUpdate.setString(1, Double.toString(newGBP));
+                pstmtUpdate.setString(2, username);
+                pstmtUpdate.executeUpdate();
+
+                pstmtSelect.close();
+                pstmtUpdate.close();
+                return newGBP;
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return -1;
+    }
+
 }
