@@ -242,4 +242,94 @@ public class Database {
         }
     }
 
+
+    public boolean hasUSD(String username, double amount) {
+        String sql = "SELECT USD FROM users WHERE username = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                double usd = Double.parseDouble(rs.getString("USD"));
+                return usd >= amount;
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    public boolean hasEUR(String username, double amount) {
+        String sql = "SELECT EUR FROM users WHERE username = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                double eur = Double.parseDouble(rs.getString("EUR"));
+                return eur >= amount;
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    public boolean hasTOMAN(String username, double amount) {
+        String sql = "SELECT TOMAN FROM users WHERE username = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                double toman = Double.parseDouble(rs.getString("TOMAN"));
+                return toman >= amount;
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    public boolean hasYEN(String username, double amount) {
+        String sql = "SELECT YEN FROM users WHERE username = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                double yen = Double.parseDouble(rs.getString("YEN"));
+                return yen >= amount;
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
+
+    public boolean hasGBP(String username, double amount) {
+        String sql = "SELECT GBP FROM users WHERE username = ?";
+        try {
+            PreparedStatement pstmt = conn.prepareStatement(sql);
+            pstmt.setString(1, username);
+            ResultSet rs = pstmt.executeQuery();
+            if (rs.next()) {
+                double gbp = Double.parseDouble(rs.getString("GBP"));
+                return gbp >= amount;
+            }
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+        return false;
+    }
+
 }
