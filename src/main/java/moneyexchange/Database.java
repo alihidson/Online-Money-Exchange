@@ -18,7 +18,8 @@ public class Database {
             conn = DriverManager.getConnection(url);
             // create users table if it does not have
             createUsersTable();
-        } catch (SQLException e) {
+        }
+        catch (SQLException e) {
             e.printStackTrace();
         }
     }
@@ -32,7 +33,12 @@ public class Database {
                 "    Age TEXT," +
                 "    password TEXT," +
                 "    email TEXT," +
-                "    phoneNumber TEXT" +
+                "    phoneNumber TEXT," +
+                "    USD TEXT," +
+                "    EUR TEXT," +
+                "    TOMAN TEXT," +
+                "    YEN TEXT," +
+                "    GBP TEXT" +
                 ");";
 
         try {
@@ -45,7 +51,7 @@ public class Database {
     }
 
     public boolean addUser(String username, String firstName, String lastName, String Age, String password, String email, String phoneNumber) {
-        String sql = "INSERT INTO users(username, firstName, lastName, Age, password, email, phoneNumber) VALUES(?, ?, ?, ?, ?, ?, ?)";
+        String sql = "INSERT INTO users(username, firstName, lastName, Age, password, email, phoneNumber, USD, EUR, TOMAN, YEN, GBP) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)";
 
         try {
             PreparedStatement pstmt = conn.prepareStatement(sql);
@@ -56,6 +62,11 @@ public class Database {
             pstmt.setString(5, password);
             pstmt.setString(6, email);
             pstmt.setString(7, phoneNumber);
+            pstmt.setString(8, "0"); // USD
+            pstmt.setString(9, "0"); // EUR
+            pstmt.setString(10, "0"); // TOMAN
+            pstmt.setString(11, "0"); // YEN
+            pstmt.setString(12, "0"); // GBP
             pstmt.executeUpdate();
             pstmt.close();
             return true;
@@ -64,6 +75,7 @@ public class Database {
             return false;
         }
     }
+
 
     public boolean validateUser(String username, String password) {
         String sql = "SELECT * FROM users WHERE username = ? AND password = ?";

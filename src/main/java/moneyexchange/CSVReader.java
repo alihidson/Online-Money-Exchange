@@ -29,7 +29,8 @@ public class CSVReader {
                     prices.add(linePrices);
                 }
             }
-        } catch (IOException e) {
+        }
+        catch (IOException e) {
             e.printStackTrace();
         }
 
