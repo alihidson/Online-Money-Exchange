@@ -15,7 +15,7 @@ public class Wallet extends Application {
     public void start(Stage stage) {
         stage.setTitle("Wallet");
 
-        // Defining the x and y axes
+        // Define the x and y axes
         final CategoryAxis xAxis = new CategoryAxis();
         final NumberAxis yAxis = new NumberAxis();
         xAxis.setLabel("Currencies");
@@ -33,11 +33,21 @@ public class Wallet extends Application {
         series.setName("Currencies");
 
         // Adding data points to the series
-        XYChart.Data<String, Number> data1 = new XYChart.Data<>("USD", 50);
+//        XYChart.Data<String, Number> data1 = new XYChart.Data<>("USD", LoginSignupPage.database.updateUSD(LoginSignupPage.UserName, 0));
+//        XYChart.Data<String, Number> data2 = new XYChart.Data<>("EUR", LoginSignupPage.database.updateEUR(LoginSignupPage.UserName, 0));
+//        XYChart.Data<String, Number> data3 = new XYChart.Data<>("TOMAN", LoginSignupPage.database.updateTOMAN(LoginSignupPage.UserName, 0));
+//        XYChart.Data<String, Number> data4 = new XYChart.Data<>("YEN", LoginSignupPage.database.updateYEN(LoginSignupPage.UserName, 0));
+//        XYChart.Data<String, Number> data5 = new XYChart.Data<>("GBP", LoginSignupPage.database.updateGBP(LoginSignupPage.UserName, 0));
+
+
+        // test
+        XYChart.Data<String, Number> data1 = new XYChart.Data<>("USD", 75);
         XYChart.Data<String, Number> data2 = new XYChart.Data<>("EUR", 60);
-        XYChart.Data<String, Number> data3 = new XYChart.Data<>("TOMAN", 20);
-        XYChart.Data<String, Number> data4 = new XYChart.Data<>("YEN", 33);
-        XYChart.Data<String, Number> data5 = new XYChart.Data<>("GBP", 10);
+        XYChart.Data<String, Number> data3 = new XYChart.Data<>("TOMAN", 50);
+        XYChart.Data<String, Number> data4 = new XYChart.Data<>("YEN", 85);
+        XYChart.Data<String, Number> data5 = new XYChart.Data<>("GBP", 20);
+
+
 
         // Setting styles for each bar
         data1.nodeProperty().addListener((ov, oldNode, newNode) -> newNode.setStyle("-fx-bar-fill: red;"));

@@ -118,6 +118,13 @@ public class ProfilePage extends Application {
             System.out.println("Profile updated!");
         });
 
+        walletButton.setOnAction(e -> {
+            primaryStage.close();
+            Stage walletStage = new Stage();
+            Wallet wallet = new Wallet();
+            wallet.start(walletStage);
+        });
+
         Scene scene = new Scene(vbox, 400, 500);
 
         primaryStage.setTitle("Profile");
