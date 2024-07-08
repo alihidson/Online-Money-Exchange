@@ -19,15 +19,18 @@ public class Transfer extends Application {
 
 
         Label usernameLabel = new Label("Wallet id:");
+        usernameLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
         TextField usernameField = new TextField();
         usernameField.setPromptText("Enter your username");
 
         Label currencyLabel = new Label("Select Currency for buy:");
+        currencyLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
         ComboBox<String> currencyComboBox = new ComboBox<>();
         currencyComboBox.getItems().addAll("USD", "EUR", "TOMAN", "YEN", "GBP");
         currencyComboBox.setPromptText("Select a currency");
 
         Label amountLabel = new Label("Amount:");
+        amountLabel.setStyle("-fx-font-size: 20px; -fx-font-weight: bold;");
         TextField amountField = new TextField();
         amountField.setPromptText("Enter the amount for buy");
 
@@ -63,6 +66,7 @@ public class Transfer extends Application {
         vbox.setAlignment(Pos.CENTER);
         vbox.getChildren().addAll(usernameLabel, usernameField, currencyLabel, currencyComboBox, amountLabel, amountField, acceptButton);
 
+        vbox.setStyle("-fx-background-color: #667e14;");
 
         Scene scene = new Scene(vbox, 500, 500);
         stage.setScene(scene);
@@ -73,4 +77,3 @@ public class Transfer extends Application {
         launch(args);
     }
 }
-
