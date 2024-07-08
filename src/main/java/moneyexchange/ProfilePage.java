@@ -69,7 +69,7 @@ public class ProfilePage extends Application {
         // Buttons
         Button editButton = new Button("Edit Profile");
         Button walletButton = new Button("Wallet");
-        Button transferButton = new Button("Transfer");
+        Button HistoryButton = new Button("History");
 
         // Layout
         VBox vbox = new VBox(10);
@@ -92,7 +92,7 @@ public class ProfilePage extends Application {
                 new HBox(10, new Label("Email:"), emailField),
                 editButton,
                 walletButton,
-                transferButton
+                HistoryButton
         );
 
 
@@ -125,11 +125,7 @@ public class ProfilePage extends Application {
             wallet.start(walletStage);
         });
 
-        transferButton.setOnAction(e -> {
-            primaryStage.close();
-            Stage TransferStage = new Stage();
-            Transfer transfer = new Transfer();
-            transfer.start(TransferStage);
+        HistoryButton.setOnAction(e -> {
         });
 
         Scene scene = new Scene(vbox, 400, 500);

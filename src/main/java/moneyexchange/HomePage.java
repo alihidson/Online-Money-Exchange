@@ -37,34 +37,36 @@ public class HomePage extends Application {
         // Create label for the menu
         Label finishLabel = new Label("Finish");
         finishLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;");
-
         Menu exitMenu = new Menu();
         exitMenu.setGraphic(finishLabel);
-
         MenuItem exitItem = new MenuItem("Exit");
         exitItem.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: black;");
-        exitItem.setOnAction(e -> {
-            primaryStage.close();
-            Stage LoginPage = new Stage();
-            LoginSignupPage loginSignupPage = new LoginSignupPage();
-            loginSignupPage.start(LoginPage);
-        });
-
+        exitItem.setOnAction(e -> ClosePage(primaryStage));
         exitMenu.getItems().add(exitItem);
 
         // Add Profile menu
         Label profileLabel = new Label("Profile");
         profileLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;");
-
         Menu profileMenu = new Menu();
         profileMenu.setGraphic(profileLabel);
-
         MenuItem profileItem = new MenuItem("Profile");
         profileItem.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: black;");
         profileItem.setOnAction(e -> openProfilePage());
         profileMenu.getItems().add(profileItem);
 
-        menuBar.getMenus().addAll(exitMenu, profileMenu);
+
+        // Add Transfer menu
+        Label TransferLabel = new Label("Transfer");
+        TransferLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;");
+        Menu TransferMenu = new Menu();
+        TransferMenu.setGraphic(TransferLabel);
+        MenuItem TransferItem = new MenuItem("Transfer");
+        TransferItem.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: black;");
+        TransferItem.setOnAction(e -> openTransferPage());
+        TransferMenu.getItems().add(TransferItem);
+
+
+        menuBar.getMenus().addAll(exitMenu, profileMenu, TransferMenu);
 
         // Setup columns
         TableColumn<CurrencyInfo, String> nameColumn = new TableColumn<>("Currency");
@@ -168,6 +170,14 @@ public class HomePage extends Application {
         }
     }
 
+
+    public void ClosePage(Stage primaryStage) {
+        primaryStage.close();
+        Stage LoginPage = new Stage();
+        LoginSignupPage loginSignupPage = new LoginSignupPage();
+        loginSignupPage.start(LoginPage);
+    }
+
     public void openProfilePage() {
         Stage profileStage = new Stage();
 
@@ -176,6 +186,13 @@ public class HomePage extends Application {
                 LoginSignupPage.phoneNumberProf, LoginSignupPage.emailProf);
 
         profilePage.start(profileStage);
+    }
+
+
+    public void openTransferPage() {
+        Stage TransferStage = new Stage();
+        Transfer transfer = new Transfer();
+        transfer.start(TransferStage);
     }
 
     public static void main(String[] args) {

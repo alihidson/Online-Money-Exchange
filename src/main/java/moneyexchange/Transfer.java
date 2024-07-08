@@ -8,14 +8,29 @@ import javafx.scene.control.Button;
 import javafx.scene.control.ComboBox;
 import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
+import javafx.scene.image.Image;
+import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
+import javafx.scene.shape.Circle;
 import javafx.stage.Stage;
 
 public class Transfer extends Application {
 
+    String imagePath = "file:/Users/ali/Main/Documents/Source/Money-Exchange/src/image/person.jpg";
+
+
     @Override
     public void start(Stage stage) {
         stage.setTitle("Transfer");
+
+        // Profile image
+        ImageView profileImageView = new ImageView(new Image(imagePath));
+        profileImageView.setFitWidth(100);
+        profileImageView.setFitHeight(100);
+        profileImageView.setPreserveRatio(true);
+
+        Circle clip = new Circle(50, 35, 35); // x, y, radius
+        profileImageView.setClip(clip);
 
 
         Label usernameLabel = new Label("Wallet id:");
@@ -64,11 +79,11 @@ public class Transfer extends Application {
         VBox vbox = new VBox(10);
         vbox.setPadding(new Insets(20));
         vbox.setAlignment(Pos.CENTER);
-        vbox.getChildren().addAll(usernameLabel, usernameField, currencyLabel, currencyComboBox, amountLabel, amountField, acceptButton);
+        vbox.getChildren().addAll(profileImageView, usernameLabel, usernameField, currencyLabel, currencyComboBox, amountLabel, amountField, acceptButton);
 
         vbox.setStyle("-fx-background-color: #667e14;");
 
-        Scene scene = new Scene(vbox, 500, 500);
+        Scene scene = new Scene(vbox, 500, 450);
         stage.setScene(scene);
         stage.show();
     }
