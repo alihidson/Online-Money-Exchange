@@ -188,13 +188,29 @@ public class HomePage extends Application {
     private void updateTable() {
         if (currentLine < prices.size()) {
             List<CurrencyInfo> linePrices = prices.get(currentLine);
-            tableView.getItems().clear();
-            tableView.getItems().addAll(linePrices);
+            Map<String, CurrencyInfo> currencyMap = new HashMap<>();
+
+            for (CurrencyInfo currencyInfo : tableView.getItems()) {
+                currencyMap.put(currencyInfo.getName(), currencyInfo);
+            }
+
+            for (CurrencyInfo newCurrencyInfo : linePrices) {
+                CurrencyInfo existingCurrencyInfo = currencyMap.get(newCurrencyInfo.getName());
+                if (existingCurrencyInfo != null) {
+                    existingCurrencyInfo.setPrice(newCurrencyInfo.getPrice());
+                    existingCurrencyInfo.setDate(newCurrencyInfo.getDate());
+                    existingCurrencyInfo.setTime(newCurrencyInfo.getTime());
+                }
+                else {
+                    tableView.getItems().add(newCurrencyInfo);
+                }
+            }
 
             tableView.refresh();
             currentLine++;
         }
     }
+    
 
     public void ClosePage(Stage primaryStage) {
         primaryStage.close();
