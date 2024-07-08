@@ -12,6 +12,9 @@ import javafx.stage.Stage;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
+import java.time.format.DateTimeParseException;
 import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
@@ -54,7 +57,6 @@ public class HomePage extends Application {
         profileItem.setOnAction(e -> openProfilePage());
         profileMenu.getItems().add(profileItem);
 
-
         // Add Transfer menu
         Label TransferLabel = new Label("Transfer");
         TransferLabel.setStyle("-fx-font-size: 14px; -fx-font-weight: bold; -fx-text-fill: white;");
@@ -64,7 +66,6 @@ public class HomePage extends Application {
         TransferItem.setStyle("-fx-font-size: 12px; -fx-font-weight: bold; -fx-text-fill: black;");
         TransferItem.setOnAction(e -> openTransferPage());
         TransferMenu.getItems().add(TransferItem);
-
 
         menuBar.getMenus().addAll(exitMenu, profileMenu, TransferMenu);
 
@@ -85,11 +86,11 @@ public class HomePage extends Application {
         priceColumn.setCellValueFactory(new PropertyValueFactory<>("price"));
         priceColumn.setMinWidth(100);
 
-        TableColumn<CurrencyInfo, String> highestColumn = new TableColumn<>("Highest");
+        TableColumn<CurrencyInfo, Double> highestColumn = new TableColumn<>("Highest");
         highestColumn.setCellValueFactory(new PropertyValueFactory<>("maxValue"));
         highestColumn.setMinWidth(100);
 
-        TableColumn<CurrencyInfo, String> lowestColumn = new TableColumn<>("Lowest");
+        TableColumn<CurrencyInfo, Double> lowestColumn = new TableColumn<>("Lowest");
         lowestColumn.setCellValueFactory(new PropertyValueFactory<>("minValue"));
         lowestColumn.setMinWidth(100);
 
@@ -137,7 +138,7 @@ public class HomePage extends Application {
         primaryStage.show();
 
         // Show initial data
-        updateTable();
+        showInitialData();
 
         // Updater to run every minute
         Timeline timeline = new Timeline(new KeyFrame(Duration.minutes(1), event -> updateTable()));
@@ -145,31 +146,55 @@ public class HomePage extends Application {
         timeline.play();
     }
 
+    private void showInitialData() {
+        LocalTime currentTime = LocalTime.now();
+        DateTimeFormatter formatter = DateTimeFormatter.ofPattern("HH:mm");
+        DateTimeFormatter formatterWithSeconds = DateTimeFormatter.ofPattern("HH:mm:ss.SSSSSS");
+
+        // Find the closest time to display
+        int closestIndex = 0;
+        long closestDifference = Long.MAX_VALUE;
+
+        for (int i = 0; i < prices.size(); i++) {
+            List<CurrencyInfo> linePrices = prices.get(i);
+            String timeString = linePrices.get(0).getTime();
+            LocalTime priceTime = null;
+
+
+            try {
+                priceTime = LocalTime.parse(timeString, formatter);
+            }
+            catch (DateTimeParseException e) {
+                try {
+                    priceTime = LocalTime.parse(timeString, formatterWithSeconds);
+                }
+                catch (DateTimeParseException ex) {
+                    continue;
+                }
+            }
+
+            long difference = Math.abs(currentTime.toSecondOfDay() - priceTime.toSecondOfDay());
+            if (difference < closestDifference) {
+                closestDifference = difference;
+                closestIndex = i;
+            }
+        }
+
+        currentLine = closestIndex;
+        updateTable();
+    }
+
+
     private void updateTable() {
         if (currentLine < prices.size()) {
             List<CurrencyInfo> linePrices = prices.get(currentLine);
-            Map<String, CurrencyInfo> currencyMap = new HashMap<>();
-
-            for (CurrencyInfo currencyInfo : tableView.getItems()) {
-                currencyMap.put(currencyInfo.getName(), currencyInfo);
-            }
-
-            for (CurrencyInfo newCurrencyInfo : linePrices) {
-                CurrencyInfo existingCurrencyInfo = currencyMap.get(newCurrencyInfo.getName());
-                if (existingCurrencyInfo != null) {
-                    existingCurrencyInfo.setPrice(newCurrencyInfo.getPrice());
-                    existingCurrencyInfo.setDate(newCurrencyInfo.getDate());
-                    existingCurrencyInfo.setTime(newCurrencyInfo.getTime());
-                } else {
-                    tableView.getItems().add(newCurrencyInfo);
-                }
-            }
+            tableView.getItems().clear();
+            tableView.getItems().addAll(linePrices);
 
             tableView.refresh();
             currentLine++;
         }
     }
-
 
     public void ClosePage(Stage primaryStage) {
         primaryStage.close();
@@ -187,7 +212,6 @@ public class HomePage extends Application {
 
         profilePage.start(profileStage);
     }
-
 
     public void openTransferPage() {
         Stage TransferStage = new Stage();
