@@ -4,10 +4,7 @@ import javafx.application.Application;
 import javafx.geometry.Insets;
 import javafx.geometry.Pos;
 import javafx.scene.Scene;
-import javafx.scene.control.Button;
-import javafx.scene.control.ComboBox;
-import javafx.scene.control.Label;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.image.Image;
 import javafx.scene.image.ImageView;
 import javafx.scene.layout.VBox;
@@ -53,24 +50,39 @@ public class Transfer extends Application {
 
 
         acceptButton.setOnAction(e -> {
+            int sw = 1;
+
             String username = usernameField.getText();
             String currency = currencyComboBox.getValue();
             String amount = amountField.getText();
 
             if(currency == "USD") {
                 LoginSignupPage.database.updateUSD(username, "admin", Double.parseDouble(amount));
+                sw = 0;
             }
             else if(currency == "EUR") {
                 LoginSignupPage.database.updateEUR(username,"admin", Double.parseDouble(amount));
+                sw = 0;
             }
             else if(currency == "TOMAN") {
                 LoginSignupPage.database.updateTOMAN(username,"admin", Double.parseDouble(amount));
+                sw = 0;
             }
             else if(currency == "YEN") {
                 LoginSignupPage.database.updateYEN(username,"admin", Double.parseDouble(amount));
+                sw = 0;
             }
             else if(currency == "GBP") {
                 LoginSignupPage.database.updateGBP(username,"admin", Double.parseDouble(amount));
+                sw = 0;
+            }
+
+            if(sw == 0) {
+                Alert alert = new Alert(Alert.AlertType.INFORMATION);
+                alert.setTitle("Successful");
+                alert.setHeaderText("Buy Successful");
+                alert.setContentText("Your buy was successful");
+                alert.showAndWait();
             }
 
         });

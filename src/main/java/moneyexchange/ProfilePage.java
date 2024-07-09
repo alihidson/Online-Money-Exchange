@@ -113,9 +113,12 @@ public class ProfilePage extends Application {
             LoginSignupPage.database.updatePhoneNumber(username, phoneNumber);
             LoginSignupPage.database.updateEmail(username, email);
 
+            Alert alert = new Alert(Alert.AlertType.INFORMATION);
+            alert.setTitle("Successful");
+            alert.setHeaderText("Edit Successful");
+            alert.setContentText("Your Edit Profile was successful");
+            alert.showAndWait();
 
-
-            System.out.println("Profile updated!");
         });
 
         walletButton.setOnAction(e -> {
