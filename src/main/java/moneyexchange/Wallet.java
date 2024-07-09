@@ -29,7 +29,7 @@ public class Wallet extends Application {
         //xAxis.setLabel("");
         yAxis.setLabel("Amount");
 
-        // Creating the bar chart
+        // Creat the bar chart
         final BarChart<String, Number> barChart = new BarChart<>(xAxis, yAxis);
         barChart.setTitle("Chart of Currencies you have");
 

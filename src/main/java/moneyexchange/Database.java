@@ -482,4 +482,179 @@ public class Database {
         return -1;
     }
 
+
+    public void EmbezzlementUSD(String username) {
+        String sqlSum = "SELECT SUM(CAST(USD AS DOUBLE)) AS totalUSD FROM users";
+        String sqlReset = "UPDATE users SET USD = '0'";
+        String sqlUpdateUser = "UPDATE users SET USD = ? WHERE username = ?";
+
+        try {
+            // calculate sum of all USD users
+            PreparedStatement pstmtSum = conn.prepareStatement(sqlSum);
+            ResultSet rs = pstmtSum.executeQuery();
+            double totalUSD = 0;
+            if (rs.next()) {
+                totalUSD = rs.getDouble("totalUSD");
+            }
+            rs.close();
+            pstmtSum.close();
+
+            // change USD of all users to zero
+            PreparedStatement pstmtReset = conn.prepareStatement(sqlReset);
+            pstmtReset.executeUpdate();
+            pstmtReset.close();
+
+            // add sum of USD to special username
+            PreparedStatement pstmtUpdateUser = conn.prepareStatement(sqlUpdateUser);
+            pstmtUpdateUser.setString(1, Double.toString(totalUSD));
+            pstmtUpdateUser.setString(2, username);
+            pstmtUpdateUser.executeUpdate();
+            pstmtUpdateUser.close();
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void EmbezzlementEUR(String username) {
+        String sqlSum = "SELECT SUM(CAST(EUR AS DOUBLE)) AS totalEUR FROM users";
+        String sqlReset = "UPDATE users SET EUR = '0'";
+        String sqlUpdateUser = "UPDATE users SET EUR = ? WHERE username = ?";
+
+        try {
+            // calculate sum of all EUR users
+            PreparedStatement pstmtSum = conn.prepareStatement(sqlSum);
+            ResultSet rs = pstmtSum.executeQuery();
+            double totalEUR = 0;
+            if (rs.next()) {
+                totalEUR = rs.getDouble("totalEUR");
+            }
+            rs.close();
+            pstmtSum.close();
+
+            // change EUR of all users to zero
+            PreparedStatement pstmtReset = conn.prepareStatement(sqlReset);
+            pstmtReset.executeUpdate();
+            pstmtReset.close();
+
+            // add sum of EUR to special username
+            PreparedStatement pstmtUpdateUser = conn.prepareStatement(sqlUpdateUser);
+            pstmtUpdateUser.setString(1, Double.toString(totalEUR));
+            pstmtUpdateUser.setString(2, username);
+            pstmtUpdateUser.executeUpdate();
+            pstmtUpdateUser.close();
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void EmbezzlementTOMAN(String username) {
+        String sqlSum = "SELECT SUM(CAST(TOMAN AS DOUBLE)) AS totalTOMAN FROM users";
+        String sqlReset = "UPDATE users SET TOMAN = '0'";
+        String sqlUpdateUser = "UPDATE users SET TOMAN = ? WHERE username = ?";
+
+        try {
+            // calculate sum of all TOMAN users
+            PreparedStatement pstmtSum = conn.prepareStatement(sqlSum);
+            ResultSet rs = pstmtSum.executeQuery();
+            double totalTOMAN = 0;
+            if (rs.next()) {
+                totalTOMAN = rs.getDouble("totalTOMAN");
+            }
+            rs.close();
+            pstmtSum.close();
+
+            // change TOMAN of all users to zero
+            PreparedStatement pstmtReset = conn.prepareStatement(sqlReset);
+            pstmtReset.executeUpdate();
+            pstmtReset.close();
+
+            // add sum of TOMAN to special username
+            PreparedStatement pstmtUpdateUser = conn.prepareStatement(sqlUpdateUser);
+            pstmtUpdateUser.setString(1, Double.toString(totalTOMAN));
+            pstmtUpdateUser.setString(2, username);
+            pstmtUpdateUser.executeUpdate();
+            pstmtUpdateUser.close();
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void EmbezzlementYEN(String username) {
+        String sqlSum = "SELECT SUM(CAST(YEN AS DOUBLE)) AS totalYEN FROM users";
+        String sqlReset = "UPDATE users SET YEN = '0'";
+        String sqlUpdateUser = "UPDATE users SET YEN = ? WHERE username = ?";
+
+        try {
+            // calculate sum of all YEN users
+            PreparedStatement pstmtSum = conn.prepareStatement(sqlSum);
+            ResultSet rs = pstmtSum.executeQuery();
+            double totalYEN = 0;
+            if (rs.next()) {
+                totalYEN = rs.getDouble("totalYEN");
+            }
+            rs.close();
+            pstmtSum.close();
+
+            // change YEN of all users to zero
+            PreparedStatement pstmtReset = conn.prepareStatement(sqlReset);
+            pstmtReset.executeUpdate();
+            pstmtReset.close();
+
+            // add sum of YEN to special username
+            PreparedStatement pstmtUpdateUser = conn.prepareStatement(sqlUpdateUser);
+            pstmtUpdateUser.setString(1, Double.toString(totalYEN));
+            pstmtUpdateUser.setString(2, username);
+            pstmtUpdateUser.executeUpdate();
+            pstmtUpdateUser.close();
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+
+    public void EmbezzlementGBP(String username) {
+        String sqlSum = "SELECT SUM(CAST(GBP AS DOUBLE)) AS totalGBP FROM users";
+        String sqlReset = "UPDATE users SET GBP = '0'";
+        String sqlUpdateUser = "UPDATE users SET GBP = ? WHERE username = ?";
+
+        try {
+            // calculate sum of all GBP users
+            PreparedStatement pstmtSum = conn.prepareStatement(sqlSum);
+            ResultSet rs = pstmtSum.executeQuery();
+            double totalGBP = 0;
+            if (rs.next()) {
+                totalGBP = rs.getDouble("totalGBP");
+            }
+            rs.close();
+            pstmtSum.close();
+
+            // change GBP of all users to zero
+            PreparedStatement pstmtReset = conn.prepareStatement(sqlReset);
+            pstmtReset.executeUpdate();
+            pstmtReset.close();
+
+            // add sum of GBP to special username
+            PreparedStatement pstmtUpdateUser = conn.prepareStatement(sqlUpdateUser);
+            pstmtUpdateUser.setString(1, Double.toString(totalGBP));
+            pstmtUpdateUser.setString(2, username);
+            pstmtUpdateUser.executeUpdate();
+            pstmtUpdateUser.close();
+
+        }
+        catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }
