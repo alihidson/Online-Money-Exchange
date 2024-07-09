@@ -1,4 +1,4 @@
-package moneyexchange.Currency;
+package moneyexchange;
 
 public class CurrencyInfo {
     private String name;

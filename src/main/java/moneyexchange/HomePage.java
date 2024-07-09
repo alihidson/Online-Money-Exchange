@@ -12,6 +12,8 @@ import javafx.stage.Stage;
 import javafx.animation.KeyFrame;
 import javafx.animation.Timeline;
 import javafx.util.Duration;
+
+import java.time.LocalDateTime;
 import java.time.LocalTime;
 import java.time.format.DateTimeFormatter;
 import java.time.format.DateTimeParseException;
@@ -20,73 +22,14 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-import moneyexchange.Currency.CurrencyInfo;
-import moneyexchange.Currency.CurrencyUI;
-
 public class HomePage extends Application {
 
     private TableView<CurrencyInfo> tableView = new TableView<>();
     private List<List<CurrencyInfo>> prices = new ArrayList<>();
-    VBox tableContainer;
     private int currentLine = 0;
-    private Map<String, CurrencyUI> currenciesMap = new HashMap<>();
-    public static int identifyCurr = 2;
-    private Button closeButton;
-    private HBox currencyPage;
-
-
-    private void initializeCurrenciresMap(){
-        currenciesMap.put("USD", new CurrencyUI(CurrencyName.USD));
-        currenciesMap.put("EUR", new CurrencyUI(CurrencyName.EUR));
-        currenciesMap.put("TOMAN", new CurrencyUI(CurrencyName.TOMAN));
-        currenciesMap.put("YEN", new CurrencyUI(CurrencyName.YEN));
-        currenciesMap.put("GBP", new CurrencyUI(CurrencyName.GBP));
-    }
-
-    private void openCurrencyDetails(CurrencyInfo currencyInfo) {
-        currencyPage = new HBox();
-
-        currencyPage = currenciesMap.get(currencyInfo.getName()).getRootLayout();
-
-        switch (currencyInfo.getName()) {
-            case "USD":
-                identifyCurr = 2;
-                break;
-            case "EUR":
-                identifyCurr = 3;
-                break;
-            case "TOMAN":
-                identifyCurr = 4;
-                break;
-            case "YEN":
-                identifyCurr = 5;
-                break;
-            case "GBP":
-                identifyCurr = 6;
-                break;
-        }
-
-        closeButton = new Button("Close");
-        closeButton.setOnAction(e -> {
-            // Remove the currency details VBox and add the tableView back
-            currencyPage.getChildren().remove(closeButton);
-            tableContainer.getChildren().clear();
-            tableContainer.getChildren().add(tableView);
-
-        });
-
-        currencyPage.getChildren().addAll(closeButton);
-
-        // Remove the tableView and add the currencyDetailsBox
-        tableContainer.getChildren().clear();
-        tableContainer.getChildren().add(currencyPage);
-    }
-
 
     @Override
     public void start(Stage primaryStage) {
-
-        initializeCurrenciresMap();
 
         String imagePath = "file:/Users/ali/Main/Documents/Source/Money-Exchange/src/image/icon.png";
         Image icon = new Image(imagePath);
@@ -159,26 +102,18 @@ public class HomePage extends Application {
 
         tableView.getColumns().addAll(nameColumn, dateColumn, timeColumn, priceColumn, highestColumn, lowestColumn, changeColumn);
 
-
-        // add mouse listener to row (+ set size) and Set row height
+        // Set row height
         tableView.setRowFactory(tv -> {
             TableRow<CurrencyInfo> row = new TableRow<>();
-            row.setOnMouseClicked(event -> {
-                if (!row.isEmpty()) {
-                    CurrencyInfo rowData = row.getItem();
-                    openCurrencyDetails(rowData);
-                }
-            });
             row.setPrefHeight(40); // Set preferred height for each row
             return row;
         });
-
 
         // Read initial data
         CSVReader csvReader = new CSVReader();
         prices = csvReader.readCSV("/Users/ali/Main/Documents/Source/Money-Exchange/Currency-Data/data.csv");
 
-        tableContainer = new VBox(tableView);
+        VBox tableContainer = new VBox(tableView);
         tableContainer.setPadding(new Insets(20));
         tableContainer.setStyle("-fx-background-color: rgb(255, 123, 70);");
 
@@ -191,15 +126,29 @@ public class HomePage extends Application {
                 new BorderStroke(Color.RED, BorderStrokeStyle.SOLID, CornerRadii.EMPTY, new BorderWidths(5))));
 
         // Set size for the tableView
-        tableView.setMaxSize(718, 248);
+        tableView.setMaxSize(720, 250);
 
         // Create BorderPane with MenuBar at the top and tablePane in the center
         BorderPane root = new BorderPane();
         root.setTop(menuBar);
-        root.setCenter(tableContainer);
+
+        // Create Labels for display username and date and time
+        Label greetingLabel = new Label("Username: " + LoginSignupPage.UserName);
+        greetingLabel.setStyle("-fx-font-size: 18px; -fx-font-weight: bold; -fx-text-fill: #4f4f00;");
+
+        DateTimeDisplay dateTimeDisplay = new DateTimeDisplay();
+        Label dateTimeLabel = dateTimeDisplay.getDateTimeLabel();
+
+        // VBox to hold the labels and the table
+        VBox contentBox = new VBox(10, greetingLabel, dateTimeLabel, tableContainer);
+        contentBox.setPadding(new Insets(20));
+        contentBox.setStyle("-fx-background-color: rgb(255, 123, 70);");
+
+        root.setCenter(contentBox);
+
 
         // Create scene with BorderPane
-        Scene scene = new Scene(root, 780, 500);
+        Scene scene = new Scene(root, 815, 550);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Currency");
         primaryStage.show();
@@ -277,7 +226,7 @@ public class HomePage extends Application {
             currentLine++;
         }
     }
-    
+
 
     public void ClosePage(Stage primaryStage) {
         primaryStage.close();

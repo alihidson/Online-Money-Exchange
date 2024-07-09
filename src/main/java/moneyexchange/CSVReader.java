@@ -1,6 +1,6 @@
 package moneyexchange;
 
-import moneyexchange.Currency.CurrencyInfo;
+import moneyexchange.CurrencyInfo;
 import java.io.BufferedReader;
 import java.io.FileReader;
 import java.io.IOException;
