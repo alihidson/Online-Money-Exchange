@@ -20,14 +20,73 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+import moneyexchange.Currency.CurrencyInfo;
+import moneyexchange.Currency.CurrencyUI;
+
 public class HomePage extends Application {
 
     private TableView<CurrencyInfo> tableView = new TableView<>();
     private List<List<CurrencyInfo>> prices = new ArrayList<>();
+    VBox tableContainer;
     private int currentLine = 0;
+    private Map<String, CurrencyUI> currenciesMap = new HashMap<>();
+    public static int identifyCurr = 2;
+    private Button closeButton;
+    private HBox currencyPage;
+
+
+    private void initializeCurrenciresMap(){
+        currenciesMap.put("USD", new CurrencyUI(CurrencyName.USD));
+        currenciesMap.put("EUR", new CurrencyUI(CurrencyName.EUR));
+        currenciesMap.put("TOMAN", new CurrencyUI(CurrencyName.TOMAN));
+        currenciesMap.put("YEN", new CurrencyUI(CurrencyName.YEN));
+        currenciesMap.put("GBP", new CurrencyUI(CurrencyName.GBP));
+    }
+
+    private void openCurrencyDetails(CurrencyInfo currencyInfo) {
+        currencyPage = new HBox();
+
+        currencyPage = currenciesMap.get(currencyInfo.getName()).getRootLayout();
+
+        switch (currencyInfo.getName()) {
+            case "USD":
+                identifyCurr = 2;
+                break;
+            case "EUR":
+                identifyCurr = 3;
+                break;
+            case "TOMAN":
+                identifyCurr = 4;
+                break;
+            case "YEN":
+                identifyCurr = 5;
+                break;
+            case "GBP":
+                identifyCurr = 6;
+                break;
+        }
+
+        closeButton = new Button("Close");
+        closeButton.setOnAction(e -> {
+            // Remove the currency details VBox and add the tableView back
+            currencyPage.getChildren().remove(closeButton);
+            tableContainer.getChildren().clear();
+            tableContainer.getChildren().add(tableView);
+
+        });
+
+        currencyPage.getChildren().addAll(closeButton);
+
+        // Remove the tableView and add the currencyDetailsBox
+        tableContainer.getChildren().clear();
+        tableContainer.getChildren().add(currencyPage);
+    }
+
 
     @Override
     public void start(Stage primaryStage) {
+
+        initializeCurrenciresMap();
 
         String imagePath = "file:/Users/ali/Main/Documents/Source/Money-Exchange/src/image/icon.png";
         Image icon = new Image(imagePath);
@@ -100,18 +159,26 @@ public class HomePage extends Application {
 
         tableView.getColumns().addAll(nameColumn, dateColumn, timeColumn, priceColumn, highestColumn, lowestColumn, changeColumn);
 
-        // Set row height
+
+        // add mouse listener to row (+ set size) and Set row height
         tableView.setRowFactory(tv -> {
             TableRow<CurrencyInfo> row = new TableRow<>();
+            row.setOnMouseClicked(event -> {
+                if (!row.isEmpty()) {
+                    CurrencyInfo rowData = row.getItem();
+                    openCurrencyDetails(rowData);
+                }
+            });
             row.setPrefHeight(40); // Set preferred height for each row
             return row;
         });
+
 
         // Read initial data
         CSVReader csvReader = new CSVReader();
         prices = csvReader.readCSV("/Users/ali/Main/Documents/Source/Money-Exchange/Currency-Data/data.csv");
 
-        VBox tableContainer = new VBox(tableView);
+        tableContainer = new VBox(tableView);
         tableContainer.setPadding(new Insets(20));
         tableContainer.setStyle("-fx-background-color: rgb(255, 123, 70);");
 
