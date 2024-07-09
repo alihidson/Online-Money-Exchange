@@ -41,11 +41,11 @@ public class Wallet extends Application {
         series.setName("Base Currency: TOMAN");
 
         // Adding data points to the series
-        XYChart.Data<String, Number> data1 = new XYChart.Data<>("USD", LoginSignupPage.database.updateUSD(LoginSignupPage.UserName, 0));
-        XYChart.Data<String, Number> data2 = new XYChart.Data<>("EUR", LoginSignupPage.database.updateEUR(LoginSignupPage.UserName, 0));
-        XYChart.Data<String, Number> data3 = new XYChart.Data<>("TOMAN", LoginSignupPage.database.updateTOMAN(LoginSignupPage.UserName, 0));
-        XYChart.Data<String, Number> data4 = new XYChart.Data<>("YEN", LoginSignupPage.database.updateYEN(LoginSignupPage.UserName, 0));
-        XYChart.Data<String, Number> data5 = new XYChart.Data<>("GBP", LoginSignupPage.database.updateGBP(LoginSignupPage.UserName, 0));
+        XYChart.Data<String, Number> data1 = new XYChart.Data<>("USD", LoginSignupPage.database.updateUSD(LoginSignupPage.UserName,"admin", 0));
+        XYChart.Data<String, Number> data2 = new XYChart.Data<>("EUR", LoginSignupPage.database.updateEUR(LoginSignupPage.UserName,"admin", 0));
+        XYChart.Data<String, Number> data3 = new XYChart.Data<>("TOMAN", LoginSignupPage.database.updateTOMAN(LoginSignupPage.UserName,"admin", 0));
+        XYChart.Data<String, Number> data4 = new XYChart.Data<>("YEN", LoginSignupPage.database.updateYEN(LoginSignupPage.UserName,"admin", 0));
+        XYChart.Data<String, Number> data5 = new XYChart.Data<>("GBP", LoginSignupPage.database.updateGBP(LoginSignupPage.UserName,"admin", 0));
 
 
 
@@ -87,31 +87,31 @@ public class Wallet extends Application {
         // Creat HBoxes to hold the currency names and amounts
         HBox hbox1 = new HBox(10);
         hbox1.setAlignment(Pos.CENTER);
-        Label usdLabel = new Label("USD: " + LoginSignupPage.database.updateUSD(LoginSignupPage.UserName, 0));
+        Label usdLabel = new Label("USD: " + LoginSignupPage.database.updateUSD(LoginSignupPage.UserName,"admin", 0));
         usdLabel.setStyle("-fx-font-size: 25px;");
         hbox1.getChildren().add(usdLabel);
 
         HBox hbox2 = new HBox(10);
         hbox2.setAlignment(Pos.CENTER);
-        Label eurLabel = new Label("EUR: " + LoginSignupPage.database.updateEUR(LoginSignupPage.UserName, 0));
+        Label eurLabel = new Label("EUR: " + LoginSignupPage.database.updateEUR(LoginSignupPage.UserName,"admin", 0));
         eurLabel.setStyle("-fx-font-size: 25px;");
         hbox2.getChildren().add(eurLabel);
 
         HBox hbox3 = new HBox(10);
         hbox3.setAlignment(Pos.CENTER);
-        Label tomanLabel = new Label("TOMAN: " + LoginSignupPage.database.updateTOMAN(LoginSignupPage.UserName, 0));
+        Label tomanLabel = new Label("TOMAN: " + LoginSignupPage.database.updateTOMAN(LoginSignupPage.UserName,"admin", 0));
         tomanLabel.setStyle("-fx-text-fill: #c71770; -fx-font-size: 25px;");
         hbox3.getChildren().add(tomanLabel);
 
         HBox hbox4 = new HBox(10);
         hbox4.setAlignment(Pos.CENTER);
-        Label yenLabel = new Label("YEN: " + LoginSignupPage.database.updateYEN(LoginSignupPage.UserName, 0));
+        Label yenLabel = new Label("YEN: " + LoginSignupPage.database.updateYEN(LoginSignupPage.UserName,"admin", 0));
         yenLabel.setStyle("-fx-font-size: 25px;");
         hbox4.getChildren().add(yenLabel);
 
         HBox hbox5 = new HBox(10);
         hbox5.setAlignment(Pos.CENTER);
-        Label gbpLabel = new Label("GBP: " + LoginSignupPage.database.updateGBP(LoginSignupPage.UserName, 0));
+        Label gbpLabel = new Label("GBP: " + LoginSignupPage.database.updateGBP(LoginSignupPage.UserName,"admin", 0));
         gbpLabel.setStyle("-fx-font-size: 25px;");
         hbox5.getChildren().add(gbpLabel);
 

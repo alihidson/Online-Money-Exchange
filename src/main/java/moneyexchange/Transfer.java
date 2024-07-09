@@ -58,19 +58,19 @@ public class Transfer extends Application {
             String amount = amountField.getText();
 
             if(currency == "USD") {
-                LoginSignupPage.database.updateUSD(username, Double.parseDouble(amount));
+                LoginSignupPage.database.updateUSD(username, "admin", Double.parseDouble(amount));
             }
             else if(currency == "EUR") {
-                LoginSignupPage.database.updateEUR(username, Double.parseDouble(amount));
+                LoginSignupPage.database.updateEUR(username,"admin", Double.parseDouble(amount));
             }
             else if(currency == "TOMAN") {
-                LoginSignupPage.database.updateTOMAN(username, Double.parseDouble(amount));
+                LoginSignupPage.database.updateTOMAN(username,"admin", Double.parseDouble(amount));
             }
             else if(currency == "YEN") {
-                LoginSignupPage.database.updateYEN(username, Double.parseDouble(amount));
+                LoginSignupPage.database.updateYEN(username,"admin", Double.parseDouble(amount));
             }
             else if(currency == "GBP") {
-                LoginSignupPage.database.updateGBP(username, Double.parseDouble(amount));
+                LoginSignupPage.database.updateGBP(username,"admin", Double.parseDouble(amount));
             }
 
         });
