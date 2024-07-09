@@ -132,7 +132,7 @@ public class HomePage extends Application {
         root.setCenter(tableContainer);
 
         // Create scene with BorderPane
-        Scene scene = new Scene(root, 1280, 740);
+        Scene scene = new Scene(root, 780, 500);
         primaryStage.setScene(scene);
         primaryStage.setTitle("Currency");
         primaryStage.show();
